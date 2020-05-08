@@ -7,7 +7,6 @@ import pl.dcwiek.noisemeasurementserver.security.model.AccessError;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public class AccessDeniedHandler implements org.springframework.security.web.access.AccessDeniedHandler {
 

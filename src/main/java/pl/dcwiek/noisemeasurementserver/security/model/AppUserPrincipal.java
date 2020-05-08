@@ -3,8 +3,8 @@ package pl.dcwiek.noisemeasurementserver.security.model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import pl.dcwiek.noisemeasurementserver.model.User;
-import pl.dcwiek.noisemeasurementserver.model.UserRole;
+import pl.dcwiek.noisemeasurementserver.database.model.User;
+import pl.dcwiek.noisemeasurementserver.database.model.UserRole;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,7 +20,7 @@ public class AppUserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> authorities = new ArrayList<>();
         for (UserRole userRole : user.getUserRoles()) {
             authorities.add(new SimpleGrantedAuthority(userRole.getApplicationUserRole().toString()));
         }

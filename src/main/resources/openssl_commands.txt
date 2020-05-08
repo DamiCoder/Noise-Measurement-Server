@@ -1,0 +1,27 @@
+keytool -exportcert -keystore noisemeasurementserver.p12 -storepass secret -storetype PKCS12 -alias localhost -file noisemeasurementserver.cer
+
+
+keytool -importcert -keystore "C:\Program Files\Java\jdk-11.0.5\lib\security\cacerts" -storepass changeit -alias localhost -file noisemeasurementserver.cer
+
+
+
+openssl x509 -inform PEM -in noisemeasurementserver.cer -out noisemeasurementserver.crt
+
+
+
+
+
+
+openssl pkcs12 -in noisemeasurementserver.p12 -nocerts -out key.pem
+
+
+
+
+
+
+openssl pkcs12 -in noisemeasurementserver.p12 -nokey -out certificate.crt
+openssl pkcs12 -in noisemeasurementserver.p12 -out privatekey.key
+
+
+openssl pkcs12 -in noisemeasurementserver.p12 -out newfile.crt -clcerts -nokeys
+openssl pkcs12 -in noisemeasurementserver.p12 -out newfile.key -nocerts -nodes
