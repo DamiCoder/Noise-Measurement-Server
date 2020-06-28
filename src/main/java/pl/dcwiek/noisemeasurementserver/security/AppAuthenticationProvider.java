@@ -11,6 +11,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import pl.dcwiek.noisemeasurementserver.domain.database.model.UserEntity;
 import pl.dcwiek.noisemeasurementserver.domain.database.repo.UserRepository;
+import pl.dcwiek.noisemeasurementserver.security.model.UserMapper;
+import pl.dcwiek.noisemeasurementserver.security.model.UserModel;
 import pl.dcwiek.noisemeasurementserver.security.service.ShaService;
 
 import java.security.NoSuchAlgorithmException;
@@ -23,11 +25,13 @@ public class AppAuthenticationProvider implements AuthenticationProvider {
 
     private final UserRepository userRepository;
     private final ShaService shaService;
+    private final UserMapper userMapper;
 
     @Autowired
-    public AppAuthenticationProvider(UserRepository userRepository, ShaService shaService) {
+    public AppAuthenticationProvider(UserRepository userRepository, ShaService shaService, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.shaService = shaService;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -38,16 +42,17 @@ public class AppAuthenticationProvider implements AuthenticationProvider {
         try{
             String encryptedPassword = shaService.hashPassword(authentication.getCredentials().toString());
             log.debug(String.format("encrypted password: %s", encryptedPassword));
-            UserEntity user = userRepository.findByUsernameAndPassword(name, encryptedPassword);
-            if(user == null) {
+            UserEntity dbUser = userRepository.findByUsernameAndPassword(name, encryptedPassword);
+            if(dbUser == null) {
                 return null;
             } else {
-                if(user.getPassword().equals(encryptedPassword)) {
-                    List<GrantedAuthority> grantedAuthorities = user.getUserRoles()
+                if(dbUser.getPassword().equals(encryptedPassword)) {
+                    List<GrantedAuthority> grantedAuthorities = dbUser.getUserRoles()
                             .stream()
                             .map(it -> new SimpleGrantedAuthority(it.getUserRole().toString()))
                             .collect(Collectors.toList());
-                    return new UsernamePasswordAuthenticationToken(name, encryptedPassword, grantedAuthorities);
+                    UserModel user = userMapper.mapEntityToModel(dbUser);
+                    return new UsernamePasswordAuthenticationToken(user, encryptedPassword, grantedAuthorities);
                 } else {
                     return null;
                 }

@@ -1,20 +1,13 @@
 package pl.dcwiek.noisemeasurementserver.application.resource.user.retrieval;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.ToString;
 
-@AllArgsConstructor
-@Getter
+@Data
 public class LoginCommand {
 
     private final String username;
+    @ToString.Exclude
     private final String password;
-
-    @Override
-    public String toString() {
-        return "LoginCommand{" +
-                "username='" + username + '\'' +
-                '}';
-    }
 }

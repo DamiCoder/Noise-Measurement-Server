@@ -13,7 +13,7 @@ public class GeoPointsValidator implements
     @Override
     public boolean isValid(String locationField, ConstraintValidatorContext constraintValidatorContext) {
         if(locationField == null) {
-            return false;
+            return true;
         }
 
         if(locationField.matches("\\d*(\\.?\\d*)*;\\d*(\\.\\d*)*\n")) {

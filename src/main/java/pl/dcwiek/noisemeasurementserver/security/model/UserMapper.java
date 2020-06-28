@@ -1,4 +1,4 @@
-package pl.dcwiek.noisemeasurementserver.application.resource.user;
+package pl.dcwiek.noisemeasurementserver.security.model;
 
 import org.springframework.stereotype.Component;
 import pl.dcwiek.noisemeasurementserver.domain.database.model.UserEntity;

@@ -2,10 +2,10 @@ package pl.dcwiek.noisemeasurementserver.application.resource.user.creation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.dcwiek.noisemeasurementserver.application.resource.user.UserModel;
 import pl.dcwiek.noisemeasurementserver.domain.ServiceException;
 import pl.dcwiek.noisemeasurementserver.domain.UsernameAlreadyExistsException;
 import pl.dcwiek.noisemeasurementserver.domain.database.service.UserService;
+import pl.dcwiek.noisemeasurementserver.security.model.UserModel;
 
 @Component
 public class CreateUserService {

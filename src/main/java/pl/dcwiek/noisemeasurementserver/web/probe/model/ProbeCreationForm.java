@@ -6,7 +6,7 @@ import pl.dcwiek.noisemeasurementserver.domain.database.model.validation.GeoPoin
 
 @Getter
 @AllArgsConstructor
-public class ProbeModelForm {
+public class ProbeCreationForm {
     @GeoPoints
     private final String location;
 

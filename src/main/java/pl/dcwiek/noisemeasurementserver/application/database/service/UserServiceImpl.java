@@ -2,8 +2,6 @@ package pl.dcwiek.noisemeasurementserver.application.database.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.dcwiek.noisemeasurementserver.application.resource.user.UserMapper;
-import pl.dcwiek.noisemeasurementserver.application.resource.user.UserModel;
 import pl.dcwiek.noisemeasurementserver.domain.ServiceException;
 import pl.dcwiek.noisemeasurementserver.domain.UserCredentialsException;
 import pl.dcwiek.noisemeasurementserver.domain.UsernameAlreadyExistsException;
@@ -12,6 +10,8 @@ import pl.dcwiek.noisemeasurementserver.domain.database.model.constants.UserRole
 import pl.dcwiek.noisemeasurementserver.domain.database.repo.UserRepository;
 import pl.dcwiek.noisemeasurementserver.domain.database.repo.UserRoleRepository;
 import pl.dcwiek.noisemeasurementserver.domain.database.service.UserService;
+import pl.dcwiek.noisemeasurementserver.security.model.UserMapper;
+import pl.dcwiek.noisemeasurementserver.security.model.UserModel;
 import pl.dcwiek.noisemeasurementserver.security.service.ShaService;
 
 import java.security.NoSuchAlgorithmException;

@@ -12,12 +12,12 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.dcwiek.noisemeasurementserver.application.resource.user.UserModel;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.creation.CreateUserCommand;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.creation.CreateUserService;
-import pl.dcwiek.noisemeasurementserver.application.resource.user.retrieval.GetUserService;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.retrieval.LoginCommand;
+import pl.dcwiek.noisemeasurementserver.application.resource.user.retrieval.LoginUserService;
 import pl.dcwiek.noisemeasurementserver.domain.ServiceException;
+import pl.dcwiek.noisemeasurementserver.security.model.UserModel;
 import pl.dcwiek.noisemeasurementserver.web.user.model.UserCredentials;
 import pl.dcwiek.noisemeasurementserver.web.user.model.UserRegistrationForm;
 
@@ -25,17 +25,17 @@ import pl.dcwiek.noisemeasurementserver.web.user.model.UserRegistrationForm;
 @RequestMapping(value = "/api")
 public class UserController {
 
-    private final GetUserService getUserService;
+    private final LoginUserService loginUserService;
     private final CreateUserService createUserService;
 
     private final Validator userCredentialsValidator;
     private final Validator userRegistrationFormValidator;
 
     @Autowired
-    UserController(GetUserService getUserService,
+    UserController(LoginUserService loginUserService,
                    CreateUserService createUserService, @Qualifier(value = "userCredentialsValidator") Validator userCredentialsValidator,
                    @Qualifier(value = "userRegistrationFormValidator") Validator userRegistrationFormValidator) {
-        this.getUserService = getUserService;
+        this.loginUserService = loginUserService;
         this.createUserService = createUserService;
         this.userCredentialsValidator = userCredentialsValidator;
         this.userRegistrationFormValidator = userRegistrationFormValidator;
@@ -48,7 +48,7 @@ public class UserController {
             throw new BindException(bindingResult);
         }
         LoginCommand command = new LoginCommand(userCredentials.getUsername(), userCredentials.getPassword());
-        UserModel user = getUserService.getUserWithoutCredentials(command);
+        UserModel user = loginUserService.login(command);
         return ResponseEntity.ok(user);
     }
 
