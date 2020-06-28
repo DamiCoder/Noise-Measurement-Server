@@ -9,8 +9,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import pl.dcwiek.noisemeasurementserver.security.authentication.AccessDeniedHandler;
-import pl.dcwiek.noisemeasurementserver.security.authentication.AppAuthenticationProvider;
+import pl.dcwiek.noisemeasurementserver.security.AccessDeniedHandler;
+import pl.dcwiek.noisemeasurementserver.security.AppAuthenticationProvider;
 
 
 @Configuration
