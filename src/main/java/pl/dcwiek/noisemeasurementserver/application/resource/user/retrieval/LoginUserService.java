@@ -3,27 +3,23 @@ package pl.dcwiek.noisemeasurementserver.application.resource.user.retrieval;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.dcwiek.noisemeasurementserver.domain.ServiceException;
-import pl.dcwiek.noisemeasurementserver.domain.UserCredentialsException;
-import pl.dcwiek.noisemeasurementserver.domain.database.model.UserEntity;
-import pl.dcwiek.noisemeasurementserver.domain.database.service.UserService;
-import pl.dcwiek.noisemeasurementserver.security.model.UserMapper;
-import pl.dcwiek.noisemeasurementserver.security.model.UserModel;
+import pl.dcwiek.noisemeasurementserver.application.resource.service.ServiceException;
+import pl.dcwiek.noisemeasurementserver.domain.NoSuchUserException;
+import pl.dcwiek.noisemeasurementserver.domain.resource.repository.UserRepository;
+import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
 
 @Service
 @Slf4j
 public class LoginUserService {
 
-    private final UserService userService;
-    private final UserMapper userMapper;
+    private final UserRepository userRepository;
 
     @Autowired
-    public LoginUserService(UserService userService, UserMapper userMapper) {
-        this.userService = userService;
-        this.userMapper = userMapper;
+    public LoginUserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public UserModel login(LoginCommand command) throws ServiceException {
+    public AppUser login(LoginCommand command) throws ServiceException {
         if (command == null) {
             throw new IllegalArgumentException("Command can not be null");
         }
@@ -31,9 +27,8 @@ public class LoginUserService {
         log.debug("GetUserService.login method invoked: " + command.toString());
 
         try {
-            UserEntity userEntity = userService.getUserWithoutConfidentialData(command.getUsername(), command.getPassword());
-            return userMapper.mapEntityToModel(userEntity);
-        } catch (UserCredentialsException e) {
+            return userRepository.getUser(command.getUsername(), command.getPassword());
+        } catch (NoSuchUserException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }

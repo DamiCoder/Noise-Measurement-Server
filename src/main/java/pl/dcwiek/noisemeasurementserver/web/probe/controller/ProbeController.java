@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.dcwiek.noisemeasurementserver.application.resource.probe.creation.CreateProbeCommand;
 import pl.dcwiek.noisemeasurementserver.application.resource.probe.creation.CreateProbeService;
-import pl.dcwiek.noisemeasurementserver.application.resource.probe.retrieval.ProbeModel;
-import pl.dcwiek.noisemeasurementserver.domain.ServiceException;
-import pl.dcwiek.noisemeasurementserver.security.model.UserModel;
+import pl.dcwiek.noisemeasurementserver.application.resource.service.ServiceException;
+import pl.dcwiek.noisemeasurementserver.domain.resource.ProbeModel;
+import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
 import pl.dcwiek.noisemeasurementserver.web.probe.model.ProbeCreationForm;
 
 @Controller
@@ -39,13 +39,12 @@ public class ProbeController {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
-        UserModel userModel = (UserModel) authentication.getPrincipal();
+        AppUser appUser = (AppUser) authentication.getPrincipal();
         CreateProbeCommand command = new CreateProbeCommand(
-                userModel.getId(),
+                appUser.getId(),
                 probeCreationForm.getResult(),
-                probeCreationForm.getPlace(),
-                probeCreationForm.getStandard(),
-                probeCreationForm.getCreatedDate(),
+                probeCreationForm.getPlaceId(),
+                probeCreationForm.getTypeId(),
                 probeCreationForm.getLocation(),
                 probeCreationForm.getComment());
 

@@ -1,14 +1,43 @@
 package pl.dcwiek.noisemeasurementserver.application.resource.probe.creation;
 
-import org.apache.commons.lang3.NotImplementedException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.dcwiek.noisemeasurementserver.application.resource.probe.retrieval.ProbeModel;
+import pl.dcwiek.noisemeasurementserver.application.resource.service.ProbeService;
+import pl.dcwiek.noisemeasurementserver.application.resource.service.ServiceException;
+import pl.dcwiek.noisemeasurementserver.application.resource.service.StandardService;
+import pl.dcwiek.noisemeasurementserver.domain.resource.ProbeModel;
+import pl.dcwiek.noisemeasurementserver.domain.resource.StandardModel;
 
 @Service
+@Slf4j
 public class CreateProbeService {
 
-    public ProbeModel createProbe(CreateProbeCommand command) {
-        //TODO: implement
-        throw new NotImplementedException("Mocked service method");
+
+    private final ProbeService probeService;
+    private final StandardService standardService;
+
+    @Autowired
+    public CreateProbeService(ProbeService probeService, StandardService standardService) {
+        this.probeService = probeService;
+        this.standardService = standardService;
+    }
+
+    public ProbeModel createProbe(CreateProbeCommand command) throws ServiceException {
+
+        if (command == null) {
+            throw new IllegalArgumentException("Command can not be null");
+        }
+
+        log.info("CreateProbeService.create probe method invoked: " + command);
+
+        StandardModel standard = standardService.getMatchingStandard(command.getResult(), command.getTypeId());
+
+        return probeService.createProbe(command.getLocation(),
+                command.getPlaceId(),
+                command.getUserId(),
+                standard.getId(),
+                command.getResult(),
+                command.getComment());
     }
 }

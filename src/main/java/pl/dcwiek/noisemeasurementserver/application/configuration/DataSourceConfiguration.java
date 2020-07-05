@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = {"pl.dcwiek.noisemeasurementserver.domain.database"})
+@EnableJpaRepositories(basePackages = {"pl.dcwiek.noisemeasurementserver.database"})
 public class DataSourceConfiguration {
     @ConfigurationProperties(prefix = "spring.datasource")
     @Bean

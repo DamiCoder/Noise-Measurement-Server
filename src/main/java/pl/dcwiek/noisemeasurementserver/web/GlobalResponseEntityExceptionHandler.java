@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import pl.dcwiek.noisemeasurementserver.domain.UserCredentialsException;
+import pl.dcwiek.noisemeasurementserver.domain.NoSuchUserException;
 import pl.dcwiek.noisemeasurementserver.domain.UsernameAlreadyExistsException;
 
 import java.security.NoSuchAlgorithmException;
@@ -33,7 +33,7 @@ public class GlobalResponseEntityExceptionHandler extends ResponseEntityExceptio
         this.messageSource = messageSource;
     }
 
-    @ExceptionHandler({UserCredentialsException.class})
+    @ExceptionHandler({NoSuchUserException.class})
     private @ResponseBody ResponseEntity<Object> handleUserCredentialsException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), ex.getClass().getSimpleName(), "No such user exception");
         log.error(ex.getMessage(), ex);

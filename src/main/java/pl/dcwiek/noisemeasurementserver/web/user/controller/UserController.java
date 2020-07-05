@@ -12,12 +12,12 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.dcwiek.noisemeasurementserver.application.resource.service.ServiceException;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.creation.CreateUserCommand;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.creation.CreateUserService;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.retrieval.LoginCommand;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.retrieval.LoginUserService;
-import pl.dcwiek.noisemeasurementserver.domain.ServiceException;
-import pl.dcwiek.noisemeasurementserver.security.model.UserModel;
+import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
 import pl.dcwiek.noisemeasurementserver.web.user.model.UserCredentials;
 import pl.dcwiek.noisemeasurementserver.web.user.model.UserRegistrationForm;
 
@@ -48,7 +48,7 @@ public class UserController {
             throw new BindException(bindingResult);
         }
         LoginCommand command = new LoginCommand(userCredentials.getUsername(), userCredentials.getPassword());
-        UserModel user = loginUserService.login(command);
+        AppUser user = loginUserService.login(command);
         return ResponseEntity.ok(user);
     }
 
@@ -59,7 +59,7 @@ public class UserController {
             throw new BindException(bindingResult);
         }
         CreateUserCommand command = new CreateUserCommand(userRegistrationForm.getUsername(), userRegistrationForm.getPassword());
-        UserModel user = createUserService.createUser(command);
+        AppUser user = createUserService.createUser(command);
         return ResponseEntity.ok(user);
     }
 

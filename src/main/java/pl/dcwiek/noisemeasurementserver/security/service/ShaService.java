@@ -12,10 +12,15 @@ public class ShaService {
 
     public static final String DEFAULT_INSTANCE = "SHA-256";
 
-    public String hashPassword(String plainString) throws NoSuchAlgorithmException {
-        MessageDigest sha = MessageDigest.getInstance(DEFAULT_INSTANCE);
-        byte[] digest = sha.digest(plainString.getBytes(StandardCharsets.UTF_8));
-        return Base64.getEncoder().encodeToString(digest);
+    public String hashPassword(String plainString) {
+        MessageDigest sha;
+        try{
+            sha = MessageDigest.getInstance(DEFAULT_INSTANCE);
+            byte[] digest = sha.digest(plainString.getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(digest);
+        } catch (NoSuchAlgorithmException ignored) {
+        }
+        return null;
     }
 
 }

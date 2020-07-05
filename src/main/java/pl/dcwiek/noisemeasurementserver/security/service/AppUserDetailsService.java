@@ -5,22 +5,22 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.dcwiek.noisemeasurementserver.domain.database.model.UserEntity;
-import pl.dcwiek.noisemeasurementserver.domain.database.repo.UserRepository;
-import pl.dcwiek.noisemeasurementserver.security.model.AppUserPrincipal;
+import pl.dcwiek.noisemeasurementserver.database.model.UserEntity;
+import pl.dcwiek.noisemeasurementserver.database.repository.UserEntityRepository;
+import pl.dcwiek.noisemeasurementserver.security.model.ExtUserDetails;
 
 @Service
 public class AppUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserEntityRepository userEntityRepository;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        UserEntity user = userRepository.findByUsername(s);
+        UserEntity user = userEntityRepository.findByUsername(s);
         if(user == null) {
             throw new UsernameNotFoundException(s);
         }
-        return new AppUserPrincipal(user);
+        return new ExtUserDetails(user);
     }
 }

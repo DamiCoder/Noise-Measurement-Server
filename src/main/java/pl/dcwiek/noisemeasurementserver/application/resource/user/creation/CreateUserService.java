@@ -1,30 +1,33 @@
 package pl.dcwiek.noisemeasurementserver.application.resource.user.creation;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import pl.dcwiek.noisemeasurementserver.domain.ServiceException;
+import org.springframework.stereotype.Service;
+import pl.dcwiek.noisemeasurementserver.application.resource.service.ServiceException;
 import pl.dcwiek.noisemeasurementserver.domain.UsernameAlreadyExistsException;
-import pl.dcwiek.noisemeasurementserver.domain.database.service.UserService;
-import pl.dcwiek.noisemeasurementserver.security.model.UserModel;
+import pl.dcwiek.noisemeasurementserver.domain.resource.repository.UserRepository;
+import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
 
-@Component
+@Service
+@Slf4j
 public class CreateUserService {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public CreateUserService(UserService userService) {
-        this.userService = userService;
+    public CreateUserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public UserModel createUser(CreateUserCommand command) throws ServiceException {
+    public AppUser createUser(CreateUserCommand command) throws ServiceException {
         if (command == null) {
             throw new IllegalArgumentException("Command can not be null");
         }
 
+        log.info("CreateUserService.createUser method invoked: " + command);
+
         try {
-            UserModel user = userService.createUser(command.getUsername(), command.getPassword());
-            return user;
+            return userRepository.createUser(command.getUsername(), command.getPassword());
         } catch (UsernameAlreadyExistsException e) {
             throw new ServiceException(e.getMessage(), e);
         }

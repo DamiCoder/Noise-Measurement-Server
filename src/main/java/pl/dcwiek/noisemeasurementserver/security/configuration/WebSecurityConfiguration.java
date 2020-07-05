@@ -20,7 +20,7 @@ import pl.dcwiek.noisemeasurementserver.security.AppAuthenticationProvider;
 @ComponentScan("pl.dcwiek.noisemeasurementserver.security")
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private AppAuthenticationProvider appAuthenticationProvider;
+    private final AppAuthenticationProvider appAuthenticationProvider;
 
     @Autowired
     public WebSecurityConfiguration(AppAuthenticationProvider appAuthenticationProvider) {
