@@ -3,21 +3,25 @@ package pl.dcwiek.noisemeasurementserver.web.probe.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.dcwiek.noisemeasurementserver.application.resource.probe.creation.CreateProbeCommand;
 import pl.dcwiek.noisemeasurementserver.application.resource.probe.creation.CreateProbeService;
 import pl.dcwiek.noisemeasurementserver.application.resource.service.ServiceException;
+import pl.dcwiek.noisemeasurementserver.database.model.constants.UserRole;
 import pl.dcwiek.noisemeasurementserver.domain.resource.ProbeModel;
 import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
 import pl.dcwiek.noisemeasurementserver.web.probe.model.ProbeCreationForm;
+import pl.dcwiek.noisemeasurementserver.web.probe.model.ProbeRetrievalForm;
 
 @Controller
 @RequestMapping(value = "/api")
@@ -50,5 +54,27 @@ public class ProbeController {
 
         ProbeModel probe = createProbeService.createProbe(command);
         return ResponseEntity.ok(probe);
+    }
+
+    @PreAuthorize("hasAuthority('" + UserRole.APP_USER_ROLE + "')")
+    @GetMapping("/probe/retrieve")
+    public ResponseEntity<Object> getUserProbes(@RequestBody ProbeRetrievalForm probeRetrievalForm, BindingResult bindingResult, Authentication authentication) throws ServiceException, BindException {
+//        ValidationUtils.invokeValidator(probeCreationFormValidator, probeCreationForm, bindingResult);
+//        if (bindingResult.hasErrors()) {
+//            throw new BindException(bindingResult);
+//        }
+//        AppUser appUser = (AppUser) authentication.getPrincipal();
+//        CreateProbeCommand command = new CreateProbeCommand(
+//                appUser.getId(),
+//                probeCreationForm.getResult(),
+//                probeCreationForm.getPlaceId(),
+//                probeCreationForm.getTypeId(),
+//                probeCreationForm.getLocation(),
+//                probeCreationForm.getComment());
+//
+//        ProbeModel probe = createProbeService.createProbe(command);
+//        return ResponseEntity.ok(probe);
+        System.out.println(((AppUser) authentication.getPrincipal()).getId());
+        return ResponseEntity.ok("done");
     }
 }

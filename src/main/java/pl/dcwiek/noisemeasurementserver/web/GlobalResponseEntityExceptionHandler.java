@@ -51,7 +51,7 @@ public class GlobalResponseEntityExceptionHandler extends ResponseEntityExceptio
     private @ResponseBody ResponseEntity<Object> handleUsernameAlreadyExistsException(UsernameAlreadyExistsException ex) {
         log.error(ex.getMessage(), ex);
         ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), UsernameAlreadyExistsException.class.getSimpleName(), ex.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
     }
 
     @Override

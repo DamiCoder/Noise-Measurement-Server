@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import pl.dcwiek.noisemeasurementserver.domain.NoSuchUserException;
 import pl.dcwiek.noisemeasurementserver.domain.resource.repository.UserRepository;
 import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
-import pl.dcwiek.noisemeasurementserver.security.service.ShaService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,13 +21,10 @@ import java.util.stream.Collectors;
 public class AppAuthenticationProvider implements AuthenticationProvider {
 
     private final UserRepository userRepository;
-    private final ShaService shaService;
 
     @Autowired
-    public AppAuthenticationProvider(UserRepository userRepository,
-                                     ShaService shaService) {
+    public AppAuthenticationProvider(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.shaService = shaService;
     }
 
     @Override
@@ -36,11 +32,10 @@ public class AppAuthenticationProvider implements AuthenticationProvider {
             throws AuthenticationException {
 
         String name = authentication.getName();
-        String encryptedPassword = shaService.hashPassword(authentication.getCredentials().toString());
-        log.debug(String.format("encrypted password: %s", encryptedPassword));
+        String password = authentication.getCredentials().toString();
         AppUser user;
         try {
-            user = userRepository.getUser(name, encryptedPassword);
+            user = userRepository.getUser(name, password);
         } catch (NoSuchUserException e) {
             return null;
         }
@@ -51,7 +46,7 @@ public class AppAuthenticationProvider implements AuthenticationProvider {
                     .stream()
                     .map(it -> new SimpleGrantedAuthority(it.getUserRole().toString()))
                     .collect(Collectors.toList());
-            return new UsernamePasswordAuthenticationToken(user, encryptedPassword, grantedAuthorities);
+            return new UsernamePasswordAuthenticationToken(user, password, grantedAuthorities);
         }
     }
 

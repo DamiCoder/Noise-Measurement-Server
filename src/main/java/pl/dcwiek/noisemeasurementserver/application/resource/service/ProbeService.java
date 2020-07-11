@@ -8,6 +8,7 @@ import pl.dcwiek.noisemeasurementserver.domain.resource.ProbeModel;
 import pl.dcwiek.noisemeasurementserver.domain.resource.repository.ProbeRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 public class ProbeService {
@@ -42,6 +43,14 @@ public class ProbeService {
                     comment,
                     LocalDateTime.now());
         } catch (DataMissingException | NoSuchUserException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    public List<ProbeModel> getProbes(int userId, Integer count, Integer pageSize) throws ServiceException {
+        try{
+            return probeRepository.findByUserIdAndOrderByCreatedDate(userId, count, pageSize);
+        } catch (NoSuchUserException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }

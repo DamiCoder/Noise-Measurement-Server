@@ -23,6 +23,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final AppAuthenticationProvider appAuthenticationProvider;
 
     @Autowired
+    private BasicAuthEntryPoint basicAuthEntryPoint;
+
+    @Autowired
     public WebSecurityConfiguration(AppAuthenticationProvider appAuthenticationProvider) {
         this.appAuthenticationProvider = appAuthenticationProvider;
     }
@@ -39,7 +42,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("api/public/**").permitAll()
                 .antMatchers("api/**").authenticated()
                 .and()
-                .httpBasic()
+                .httpBasic().authenticationEntryPoint(basicAuthEntryPoint)
                 .and()
                 .exceptionHandling().accessDeniedHandler(new AccessDeniedHandler())
                 .and()

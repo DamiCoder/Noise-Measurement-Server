@@ -4,6 +4,7 @@ package pl.dcwiek.noisemeasurementserver.web.user.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -15,10 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.dcwiek.noisemeasurementserver.application.resource.service.ServiceException;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.creation.CreateUserCommand;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.creation.CreateUserService;
-import pl.dcwiek.noisemeasurementserver.application.resource.user.retrieval.LoginCommand;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.retrieval.LoginUserService;
 import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
-import pl.dcwiek.noisemeasurementserver.web.user.model.UserCredentials;
 import pl.dcwiek.noisemeasurementserver.web.user.model.UserRegistrationForm;
 
 @Controller
@@ -33,7 +32,8 @@ public class UserController {
 
     @Autowired
     UserController(LoginUserService loginUserService,
-                   CreateUserService createUserService, @Qualifier(value = "userCredentialsValidator") Validator userCredentialsValidator,
+                   CreateUserService createUserService,
+                   @Qualifier(value = "userCredentialsValidator") Validator userCredentialsValidator,
                    @Qualifier(value = "userRegistrationFormValidator") Validator userRegistrationFormValidator) {
         this.loginUserService = loginUserService;
         this.createUserService = createUserService;
@@ -41,14 +41,25 @@ public class UserController {
         this.userRegistrationFormValidator = userRegistrationFormValidator;
     }
 
+//    @PostMapping("/public/user/login")
+//    public ResponseEntity<Object> loginUser(@RequestBody UserCredentials userCredentials, BindingResult bindingResult) throws ServiceException, BindException {
+//        ValidationUtils.invokeValidator(userCredentialsValidator, userCredentials, bindingResult);
+//        if (bindingResult.hasErrors()) {
+//            throw new BindException(bindingResult);
+//        }
+//        LoginCommand command = new LoginCommand(userCredentials.getUsername(), userCredentials.getPassword());
+//        AppUser user = loginUserService.login(command);
+//        return ResponseEntity.ok(user);
+//    }
+
     @PostMapping("/public/user/login")
-    public ResponseEntity<Object> loginUser(@RequestBody UserCredentials userCredentials, BindingResult bindingResult) throws ServiceException, BindException {
-        ValidationUtils.invokeValidator(userCredentialsValidator, userCredentials, bindingResult);
-        if (bindingResult.hasErrors()) {
-            throw new BindException(bindingResult);
-        }
-        LoginCommand command = new LoginCommand(userCredentials.getUsername(), userCredentials.getPassword());
-        AppUser user = loginUserService.login(command);
+    public ResponseEntity<Object> loginUser(Authentication authentication) throws ServiceException, BindException {
+//        ValidationUtils.invokeValidator(userCredentialsValidator, userCredentials, bindingResult);
+//        if (bindingResult.hasErrors()) {
+//            throw new BindException(bindingResult);
+//        }
+//        LoginCommand command = new LoginCommand(userCredentials.getUsername(), userCredentials.getPassword());
+        AppUser user = (AppUser) authentication.getPrincipal();
         return ResponseEntity.ok(user);
     }
 

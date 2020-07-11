@@ -1,6 +1,8 @@
 package pl.dcwiek.noisemeasurementserver.database.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.dcwiek.noisemeasurementserver.database.model.PlaceEntity;
 import pl.dcwiek.noisemeasurementserver.database.model.ProbeEntity;
@@ -37,12 +39,19 @@ class ProbeRepositoryImpl implements ProbeRepository {
     }
 
     @Override
-    public List<ProbeModel> findByUserIdAndOrderByCreatedDate(int userId) throws NoSuchUserException {
+    public List<ProbeModel> findByUserIdAndOrderByCreatedDate(int userId, Integer number, Integer pageSize) throws NoSuchUserException {
         UserEntity user = userEntityRepository.findById(userId).orElse(null);
         if (user == null) {
             throw new NoSuchUserException("User with provided ID doesn't exist");
         }
-        List<ProbeEntity> probeEntities = probeEntityRepository.findByUserOrderByCreatedDate(user);
+        Pageable pageable;
+        if(number == null || pageSize == null) {
+            pageable = Pageable.unpaged();
+        } else {
+            pageable = PageRequest.of(number, pageSize);
+        }
+
+        List<ProbeEntity> probeEntities = probeEntityRepository.findByUserOrderByCreatedDate(user, pageable).getContent();
 
         return probeEntities.stream()
                 .map(ProbeMapper::mapEntityToModel)
