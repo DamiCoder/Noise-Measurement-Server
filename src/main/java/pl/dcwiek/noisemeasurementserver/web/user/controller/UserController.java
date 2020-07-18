@@ -20,7 +20,7 @@ import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
 import pl.dcwiek.noisemeasurementserver.web.user.model.UserRegistrationForm;
 
 @Controller
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/public/api/user")
 public class UserController {
 
     private final CreateUserService createUserService;
@@ -33,13 +33,13 @@ public class UserController {
         this.userRegistrationFormValidator = userRegistrationFormValidator;
     }
 
-    @PostMapping("/public/user/login")
+    @PostMapping("/login")
     public ResponseEntity<Object> loginUser(Authentication authentication) {
         AppUser user = (AppUser) authentication.getPrincipal();
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/public/user/register")
+    @PostMapping("/register")
     public ResponseEntity<Object> registerUser(@RequestBody UserRegistrationForm userRegistrationForm, BindingResult bindingResult) throws BindException, ServiceException {
         ValidationUtils.invokeValidator(userRegistrationFormValidator, userRegistrationForm, bindingResult);
         if(bindingResult.hasErrors()) {

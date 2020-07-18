@@ -6,6 +6,8 @@ import pl.dcwiek.noisemeasurementserver.domain.DataAlreadyExistsException;
 import pl.dcwiek.noisemeasurementserver.domain.resource.TypeModel;
 import pl.dcwiek.noisemeasurementserver.domain.resource.repository.TypeRepository;
 
+import java.util.List;
+
 @Service
 public class TypeService {
 
@@ -22,5 +24,9 @@ public class TypeService {
         } catch (DataAlreadyExistsException e) {
             return typeRepository.getTypeModel(name);
         }
+    }
+
+    public List<TypeModel> getTypeModels() {
+        return typeRepository.getTypes();
     }
 }

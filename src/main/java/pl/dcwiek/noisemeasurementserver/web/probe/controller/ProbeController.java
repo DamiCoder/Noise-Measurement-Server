@@ -28,7 +28,7 @@ import pl.dcwiek.noisemeasurementserver.web.probe.model.ProbeRetrievalForm;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/probe")
 public class ProbeController {
 
     private final CreateProbeService createProbeService;
@@ -47,7 +47,7 @@ public class ProbeController {
         this.probeRetrievalFormValidator = probeRetrievalFormValidator;
     }
 
-    @PostMapping("/probe/upload")
+    @PostMapping("/upload")
     @PreAuthorize("hasAuthority('" + UserRole.APP_USER_ROLE + "')")
     public ResponseEntity<Object> create(@RequestBody ProbeCreationForm probeCreationForm, BindingResult bindingResult, Authentication authentication) throws ServiceException, BindException {
         ValidationUtils.invokeValidator(probeCreationFormValidator, probeCreationForm, bindingResult);
@@ -67,7 +67,7 @@ public class ProbeController {
         return ResponseEntity.ok(probe);
     }
 
-    @GetMapping("/probe/retrieve")
+    @GetMapping("/retrieve")
     @PreAuthorize("hasAuthority('" + UserRole.APP_USER_ROLE + "')")
     public ResponseEntity<Object> getUserProbes(
             @RequestBody ProbeRetrievalForm probeRetrievalForm,

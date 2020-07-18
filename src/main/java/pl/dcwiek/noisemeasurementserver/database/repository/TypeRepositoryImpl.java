@@ -10,6 +10,9 @@ import pl.dcwiek.noisemeasurementserver.domain.resource.TypeModel;
 import pl.dcwiek.noisemeasurementserver.domain.resource.repository.TypeRepository;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 class TypeRepositoryImpl implements TypeRepository {
@@ -44,6 +47,14 @@ class TypeRepositoryImpl implements TypeRepository {
         Regulation regulation = Regulation.valueOf(name);
         TypeEntity type = typeEntityRepository.findByRegulation(regulation).orElse(null);
         return type != null ? TypeMapper.mapEntityToModel(type) : null;
+    }
+
+    @Override
+    public List<TypeModel> getTypes() {
+        List<TypeEntity> typeEntities = typeEntityRepository.findAll();
+        return typeEntities.size() != 0
+                ? typeEntities.stream().map(TypeMapper::mapEntityToModel).collect(Collectors.toList())
+                : Collections.emptyList();
     }
 }
 
