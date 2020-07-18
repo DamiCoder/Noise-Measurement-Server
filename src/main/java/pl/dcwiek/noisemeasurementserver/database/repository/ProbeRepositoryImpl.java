@@ -51,7 +51,7 @@ class ProbeRepositoryImpl implements ProbeRepository {
             pageable = PageRequest.of(number, pageSize);
         }
 
-        List<ProbeEntity> probeEntities = probeEntityRepository.findByUserOrderByCreatedDate(user, pageable).getContent();
+        List<ProbeEntity> probeEntities = probeEntityRepository.findByUserOrderByCreatedDateDesc(user, pageable).getContent();
 
         return probeEntities.stream()
                 .map(ProbeMapper::mapEntityToModel)

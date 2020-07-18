@@ -8,7 +8,7 @@ import pl.dcwiek.noisemeasurementserver.database.model.UserEntity;
 
 public interface ProbeEntityRepository extends JpaRepository<ProbeEntity, Integer> {
 
-    Page<ProbeEntity> findByUserOrderByCreatedDate(UserEntity user, Pageable pageable);
+    Page<ProbeEntity> findByUserOrderByCreatedDateDesc(UserEntity user, Pageable pageable);
 
     int countByUser(UserEntity user);
 }

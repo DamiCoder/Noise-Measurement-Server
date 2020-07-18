@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.dcwiek.noisemeasurementserver.application.resource.service.ServiceException;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.creation.CreateUserCommand;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.creation.CreateUserService;
-import pl.dcwiek.noisemeasurementserver.application.resource.user.retrieval.LoginUserService;
 import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
 import pl.dcwiek.noisemeasurementserver.web.user.model.UserRegistrationForm;
 
@@ -24,41 +23,18 @@ import pl.dcwiek.noisemeasurementserver.web.user.model.UserRegistrationForm;
 @RequestMapping(value = "/api")
 public class UserController {
 
-    private final LoginUserService loginUserService;
     private final CreateUserService createUserService;
-
-    private final Validator userCredentialsValidator;
     private final Validator userRegistrationFormValidator;
 
     @Autowired
-    UserController(LoginUserService loginUserService,
-                   CreateUserService createUserService,
-                   @Qualifier(value = "userCredentialsValidator") Validator userCredentialsValidator,
+    UserController(CreateUserService createUserService,
                    @Qualifier(value = "userRegistrationFormValidator") Validator userRegistrationFormValidator) {
-        this.loginUserService = loginUserService;
         this.createUserService = createUserService;
-        this.userCredentialsValidator = userCredentialsValidator;
         this.userRegistrationFormValidator = userRegistrationFormValidator;
     }
 
-//    @PostMapping("/public/user/login")
-//    public ResponseEntity<Object> loginUser(@RequestBody UserCredentials userCredentials, BindingResult bindingResult) throws ServiceException, BindException {
-//        ValidationUtils.invokeValidator(userCredentialsValidator, userCredentials, bindingResult);
-//        if (bindingResult.hasErrors()) {
-//            throw new BindException(bindingResult);
-//        }
-//        LoginCommand command = new LoginCommand(userCredentials.getUsername(), userCredentials.getPassword());
-//        AppUser user = loginUserService.login(command);
-//        return ResponseEntity.ok(user);
-//    }
-
     @PostMapping("/public/user/login")
-    public ResponseEntity<Object> loginUser(Authentication authentication) throws ServiceException, BindException {
-//        ValidationUtils.invokeValidator(userCredentialsValidator, userCredentials, bindingResult);
-//        if (bindingResult.hasErrors()) {
-//            throw new BindException(bindingResult);
-//        }
-//        LoginCommand command = new LoginCommand(userCredentials.getUsername(), userCredentials.getPassword());
+    public ResponseEntity<Object> loginUser(Authentication authentication) {
         AppUser user = (AppUser) authentication.getPrincipal();
         return ResponseEntity.ok(user);
     }
@@ -73,6 +49,5 @@ public class UserController {
         AppUser user = createUserService.createUser(command);
         return ResponseEntity.ok(user);
     }
-
 
 }
