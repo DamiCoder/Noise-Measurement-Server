@@ -8,40 +8,33 @@ import pl.dcwiek.noisemeasurementserver.domain.resource.ProbeModel;
 import pl.dcwiek.noisemeasurementserver.domain.resource.repository.ProbeRepository;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Component
 public class ProbeService {
 
     private final ProbeRepository probeRepository;
-    private final PlaceService placeService;
 
     @Autowired
-    public ProbeService(ProbeRepository probeRepository, PlaceService placeService) {
+    public ProbeService(ProbeRepository probeRepository) {
         this.probeRepository = probeRepository;
-        this.placeService = placeService;
     }
 
-    public ProbeModel createProbe(String location, Integer placeId, int userId, int standardId, Integer result, String comment) throws ServiceException {
+    public ProbeModel createProbe(String location, Integer placeId, int userId, Integer result, String comment, Integer userRating) throws ServiceException {
         try {
-            if (placeId == null) {
-                return probeRepository.createProbeModel(
-                        location,
-                        placeService.getDefaultPlaceId(),
-                        userId,
-                        standardId,
-                        result,
-                        comment,
-                        LocalDateTime.now());
-            }
+            //TODO: try to calculate standards here!
+            //TODO: 1. we should try to get MEDIUM risk standards (result >= min_value && result < max_value)
+            //TODO: 2. we should try to get HIGH risk standards (result >= max_value)
             return probeRepository.createProbeModel(
                     location,
                     placeId,
                     userId,
-                    standardId,
                     result,
+                    Collections.emptyList(),
                     comment,
-                    LocalDateTime.now());
+                    LocalDateTime.now(),
+                    userRating);
         } catch (DataMissingException | NoSuchUserException e) {
             throw new ServiceException(e.getMessage(), e);
         }

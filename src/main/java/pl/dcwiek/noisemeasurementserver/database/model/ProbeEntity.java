@@ -10,6 +10,7 @@ import pl.dcwiek.noisemeasurementserver.database.model.validation.GeoPoints;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -33,16 +34,23 @@ public class ProbeEntity {
     @ManyToOne(targetEntity = UserEntity.class)
     private UserEntity user;
 
-    @ManyToOne(targetEntity = StandardEntity.class)
-    private StandardEntity standard;
-
     @Column
     private Integer result;
+
+    @ManyToMany(targetEntity = StandardEntity.class, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "probe_to_standard",
+            joinColumns = @JoinColumn(name = "probe_id"),
+            inverseJoinColumns = @JoinColumn(name = "standard_id"))
+    private Set<StandardEntity> standards;
 
     @Column
     private String comment;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
+
+    @Column(name = "user_rating")
+    private Integer userRating;
 
 }

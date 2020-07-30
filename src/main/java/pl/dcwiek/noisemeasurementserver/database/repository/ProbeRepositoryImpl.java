@@ -16,7 +16,9 @@ import pl.dcwiek.noisemeasurementserver.domain.resource.repository.ProbeReposito
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,15 +62,21 @@ class ProbeRepositoryImpl implements ProbeRepository {
 
     @Override
     @Transactional
-    public ProbeModel createProbeModel(String location, Integer placeId, int userId, int standardId, Integer result, String comment, LocalDateTime createdDate) throws NoSuchUserException, DataMissingException {
+    public ProbeModel createProbeModel(String location, Integer placeId, int userId, Integer result, List<Integer> standardIds, String comment, LocalDateTime createdDate, Integer userRating) throws NoSuchUserException, DataMissingException {
         PlaceEntity place = placeEntityRepository.findById(placeId).orElse(null);
         if(place == null) {
             throw new DataMissingException("There is no place with provided ID");
         }
-        StandardEntity standard = standardEntityRepository.findById(standardId).orElse(null);
-        if(standard == null) {
-            throw new DataMissingException("There is no standard with provided ID");
+        Set<StandardEntity> standards = new HashSet<>();
+        for (Integer standardId : standardIds) {
+            StandardEntity standard = standardEntityRepository.findById(standardId).orElse(null);
+            if(standard == null) {
+                throw new DataMissingException("There is no standard with provided ID");
+            } else {
+                standards.add(standard);
+            }
         }
+
         UserEntity user = userEntityRepository.findById(userId).orElse(null);
         if(user == null) {
             throw new NoSuchUserException("There is no user with provided ID");
@@ -79,10 +87,11 @@ class ProbeRepositoryImpl implements ProbeRepository {
                 location,
                 place,
                 user,
-                standard,
                 result,
+                standards,
                 comment,
-                createdDate));
+                createdDate,
+                userRating));
 
         return ProbeMapper.mapEntityToModel(probe);
     }

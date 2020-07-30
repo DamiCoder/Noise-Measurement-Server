@@ -13,5 +13,6 @@ public class CreateProbeCommand {
     @GeoPoints
     private final String location;
     private final String comment;
+    private final Integer userRating;
 
 }

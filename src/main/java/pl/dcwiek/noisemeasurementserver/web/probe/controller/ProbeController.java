@@ -61,7 +61,8 @@ public class ProbeController {
                 probeCreationForm.getPlaceId(),
                 probeCreationForm.getTypeId(),
                 probeCreationForm.getLocation(),
-                probeCreationForm.getComment());
+                probeCreationForm.getComment(),
+                probeCreationForm.getUserRating());
 
         ProbeModel probe = createProbeService.createProbe(command);
         return ResponseEntity.ok(probe);

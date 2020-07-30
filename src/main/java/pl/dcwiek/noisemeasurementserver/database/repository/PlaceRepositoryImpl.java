@@ -22,13 +22,13 @@ class PlaceRepositoryImpl implements PlaceRepository {
 
     @Override
     @Transactional
-    public PlaceModel createPlaceModel(String name, String description) throws DataAlreadyExistsException {
+    public PlaceModel createPlaceModel(String name, String description, String type) throws DataAlreadyExistsException {
         PlaceEntity place = placeEntityRepository.findByName(name).orElse(null);
         if(place != null) {
             throw new DataAlreadyExistsException(String.format("Place with name '%s' already exists in the system", name));
         }
 
-        place = placeEntityRepository.save(new PlaceEntity(0, name, description));
+        place = placeEntityRepository.save(new PlaceEntity(0, name, description, type));
         return PlaceMapper.mapEntityToModel(place);
     }
 

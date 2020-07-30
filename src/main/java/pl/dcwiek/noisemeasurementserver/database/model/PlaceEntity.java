@@ -23,4 +23,7 @@ public class PlaceEntity {
 
     @Column
     private String description;
+
+    @Column
+    private String type;
 }

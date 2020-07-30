@@ -7,7 +7,7 @@ public class GeoPointsValidator implements
         ConstraintValidator<GeoPoints, String> {
 
     @Override
-    public void initialize(GeoPoints contactNumber) {
+    public void initialize(GeoPoints location) {
     }
 
     @Override

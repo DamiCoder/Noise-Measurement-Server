@@ -9,6 +9,8 @@ import pl.dcwiek.noisemeasurementserver.application.resource.service.StandardSer
 import pl.dcwiek.noisemeasurementserver.domain.resource.ProbeModel;
 import pl.dcwiek.noisemeasurementserver.domain.resource.StandardModel;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class CreateProbeService {
@@ -31,13 +33,13 @@ public class CreateProbeService {
 
         log.info("CreateProbeService.create probe method invoked: " + command);
 
-        StandardModel standard = standardService.getMatchingStandard(command.getResult(), command.getTypeId());
+        List<StandardModel> standards = standardService.getMatchingStandard(command.getResult(), command.getTypeId(), command.getPlaceId());
 
         return probeService.createProbe(command.getLocation(),
                 command.getPlaceId(),
                 command.getUserId(),
-                standard.getId(),
                 command.getResult(),
-                command.getComment());
+                command.getComment(),
+                command.getUserRating());
     }
 }

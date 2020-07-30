@@ -7,6 +7,8 @@ import pl.dcwiek.noisemeasurementserver.domain.DataMissingException;
 import pl.dcwiek.noisemeasurementserver.domain.resource.StandardModel;
 import pl.dcwiek.noisemeasurementserver.domain.resource.repository.StandardRepository;
 
+import java.util.List;
+
 @Service
 public class StandardService {
 
@@ -17,21 +19,21 @@ public class StandardService {
         this.standardRepository = standardRepository;
     }
 
-    public StandardModel getOrCreateStandard(String title, String description, int maxValue, int minValue, int typeId) throws ServiceException {
+    public StandardModel getOrCreateStandard(String title, String description, int maxValue, int minValue, int typeId, int placeId) throws ServiceException {
         try{
             try{
-                return standardRepository.createStandardModel(title, description, minValue, maxValue, typeId);
+                return standardRepository.createStandardModel(title, description, minValue, maxValue, typeId, placeId);
             } catch (DataAlreadyExistsException e) {
-                return standardRepository.getStandardModel(title, typeId);
+                return standardRepository.getStandardModel(title, typeId, placeId);
             }
         } catch (DataMissingException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
-    public StandardModel getMatchingStandard(int result, int typeId) throws ServiceException {
+    public List<StandardModel> getMatchingStandard(int result, int typeId, int placeId) throws ServiceException {
         try {
-            return standardRepository.getMatchingStandardModel(typeId, result);
+            return standardRepository.getMatchingStandardModels(typeId, result, placeId);
         } catch (DataMissingException e) {
             throw new ServiceException(e.getMessage(), e);
         }

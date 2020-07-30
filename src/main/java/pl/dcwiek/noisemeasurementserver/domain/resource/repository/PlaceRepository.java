@@ -6,7 +6,7 @@ import pl.dcwiek.noisemeasurementserver.domain.resource.PlaceModel;
 
 public interface PlaceRepository {
 
-    PlaceModel createPlaceModel(String name, String description) throws DataAlreadyExistsException;
+    PlaceModel createPlaceModel(String name, String description, String type) throws DataAlreadyExistsException;
 
     PlaceModel getPlaceModel(Integer id);
 

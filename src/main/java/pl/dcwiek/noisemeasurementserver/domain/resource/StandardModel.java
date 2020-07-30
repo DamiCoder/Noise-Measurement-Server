@@ -15,4 +15,5 @@ public class StandardModel {
     private final int minValue;
     private final int maxValue;
     private final TypeModel type;
+    private final PlaceModel place;
 }

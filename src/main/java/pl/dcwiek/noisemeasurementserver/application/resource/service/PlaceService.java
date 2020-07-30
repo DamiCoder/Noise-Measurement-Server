@@ -18,9 +18,9 @@ public class PlaceService {
         this.placeRepository = placeRepository;
     }
 
-    public PlaceModel getOrCreatePlace(String name, String description) {
+    public PlaceModel getOrCreatePlace(String name, String description, String type) {
         try {
-            return placeRepository.createPlaceModel(name, description);
+            return placeRepository.createPlaceModel(name, description, type);
         } catch (DataAlreadyExistsException e) {
             return placeRepository.getPlaceModel(name);
         }

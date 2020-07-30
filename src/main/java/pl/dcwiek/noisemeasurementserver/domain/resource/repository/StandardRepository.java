@@ -4,13 +4,15 @@ import pl.dcwiek.noisemeasurementserver.domain.DataAlreadyExistsException;
 import pl.dcwiek.noisemeasurementserver.domain.DataMissingException;
 import pl.dcwiek.noisemeasurementserver.domain.resource.StandardModel;
 
+import java.util.List;
+
 public interface StandardRepository {
 
-    StandardModel createStandardModel(String title, String description, int minValue, int maxValue, int typeId) throws DataAlreadyExistsException, DataMissingException;
+    StandardModel createStandardModel(String title, String description, int minValue, int maxValue, int typeId, int placeId) throws DataAlreadyExistsException, DataMissingException;
 
     StandardModel getStandardModel(Integer id);
 
-    StandardModel getStandardModel(String title, int typeId) throws DataMissingException;
+    StandardModel getStandardModel(String title, int typeId, int placeId) throws DataMissingException;
 
-    StandardModel getMatchingStandardModel(int typeId, int result) throws DataMissingException;
+    List<StandardModel> getMatchingStandardModels(int typeId, int result, int placeId) throws DataMissingException;
 }

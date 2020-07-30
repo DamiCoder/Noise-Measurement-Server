@@ -11,6 +11,6 @@ public interface ProbeRepository {
 
     List<ProbeModel> findByUserIdAndOrderByCreatedDate(int userId, Integer number, Integer pageSize) throws NoSuchUserException;
 
-    ProbeModel createProbeModel(String location, Integer placeId, int userId, int standardId, Integer result, String comment, LocalDateTime createdDate) throws NoSuchUserException, DataMissingException;
+    ProbeModel createProbeModel(String location, Integer placeId, int userId, Integer result, List<Integer> standardIds, String comment, LocalDateTime createdDate, Integer userRating) throws NoSuchUserException, DataMissingException;
 
 }

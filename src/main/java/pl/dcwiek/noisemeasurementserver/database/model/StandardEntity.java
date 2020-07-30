@@ -33,4 +33,8 @@ public class StandardEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "type_id", referencedColumnName = "id")
     private TypeEntity type;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "place_id", referencedColumnName = "id")
+    private PlaceEntity place;
 }

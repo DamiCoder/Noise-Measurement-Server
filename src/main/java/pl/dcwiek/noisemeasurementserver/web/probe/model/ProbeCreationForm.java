@@ -17,4 +17,6 @@ public class ProbeCreationForm {
     private final Integer result;
 
     private final String comment;
+
+    private final Integer userRating;
 }
