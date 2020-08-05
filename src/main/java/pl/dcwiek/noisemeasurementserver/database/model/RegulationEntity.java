@@ -11,8 +11,8 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "type")
-public class TypeEntity {
+@Entity(name = "regulation")
+public class RegulationEntity {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)

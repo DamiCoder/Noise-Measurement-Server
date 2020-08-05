@@ -26,4 +26,8 @@ public class PlaceEntity {
 
     @Column
     private String type;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "regulation_id", referencedColumnName = "id")
+    private RegulationEntity regulation;
 }

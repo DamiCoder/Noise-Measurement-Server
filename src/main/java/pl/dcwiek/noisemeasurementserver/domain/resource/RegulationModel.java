@@ -7,7 +7,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public class TypeModel {
+public class RegulationModel {
 
     private final Integer id;
     private final String name;

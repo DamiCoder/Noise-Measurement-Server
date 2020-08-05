@@ -29,10 +29,9 @@ public class StandardEntity {
     @Column(name = "max_value")
     private Integer maxValue;
 
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "type_id", referencedColumnName = "id")
-    private TypeEntity type;
+    private RegulationEntity regulation;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "place_id", referencedColumnName = "id")

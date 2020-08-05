@@ -19,23 +19,27 @@ public class StandardService {
         this.standardRepository = standardRepository;
     }
 
-    public StandardModel getOrCreateStandard(String title, String description, int maxValue, int minValue, int typeId, int placeId) throws ServiceException {
+    public StandardModel getOrCreateStandard(String title, String description, int maxValue, int minValue, int regulationId, int placeId) throws ServiceException {
         try{
             try{
-                return standardRepository.createStandardModel(title, description, minValue, maxValue, typeId, placeId);
+                return standardRepository.createStandardModel(title, description, minValue, maxValue, regulationId, placeId);
             } catch (DataAlreadyExistsException e) {
-                return standardRepository.getStandardModel(title, typeId, placeId);
+                return standardRepository.getStandardModel(title, regulationId, placeId);
             }
         } catch (DataMissingException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
-    public List<StandardModel> getMatchingStandard(int result, int typeId, int placeId) throws ServiceException {
+    public List<StandardModel> getMatchingStandard(int result, int regulationId, int placeId) throws ServiceException {
         try {
-            return standardRepository.getMatchingStandardModels(typeId, result, placeId);
+            return standardRepository.getMatchingStandardModels(regulationId, result, placeId);
         } catch (DataMissingException e) {
             throw new ServiceException(e.getMessage(), e);
         }
+    }
+
+    public List<StandardModel> getStandards() {
+        return standardRepository.getStandards();
     }
 }

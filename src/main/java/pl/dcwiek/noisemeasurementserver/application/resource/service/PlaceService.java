@@ -8,6 +8,8 @@ import pl.dcwiek.noisemeasurementserver.domain.DataMissingException;
 import pl.dcwiek.noisemeasurementserver.domain.resource.PlaceModel;
 import pl.dcwiek.noisemeasurementserver.domain.resource.repository.PlaceRepository;
 
+import java.util.List;
+
 @Service
 public class PlaceService {
 
@@ -18,9 +20,9 @@ public class PlaceService {
         this.placeRepository = placeRepository;
     }
 
-    public PlaceModel getOrCreatePlace(String name, String description, String type) {
+    public PlaceModel getOrCreatePlace(String name, String description, String type, int regulationId) throws DataMissingException {
         try {
-            return placeRepository.createPlaceModel(name, description, type);
+            return placeRepository.createPlaceModel(name, description, type, regulationId);
         } catch (DataAlreadyExistsException e) {
             return placeRepository.getPlaceModel(name);
         }
@@ -33,6 +35,9 @@ public class PlaceService {
         } else {
             throw new DataMissingException("There is no default place in DB");
         }
+    }
 
+    public List<PlaceModel> getPlaces() {
+        return placeRepository.getAllPlaceModels();
     }
 }

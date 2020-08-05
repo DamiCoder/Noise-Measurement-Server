@@ -13,4 +13,5 @@ public class PlaceModel {
     private final String name;
     private final String description;
     private final String type;
+    private final RegulationModel regulation;
 }

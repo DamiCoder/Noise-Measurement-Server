@@ -12,7 +12,7 @@ public class StandardMapper {
                 entity.getDescription(),
                 entity.getMinValue(),
                 entity.getMaxValue(),
-                TypeMapper.mapEntityToModel(entity.getType()),
+                RegulationMapper.mapEntityToModel(entity.getRegulation()),
                 PlaceMapper.mapEntityToModel(entity.getPlace()));
     }
 }

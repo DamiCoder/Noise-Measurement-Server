@@ -1,7 +1,7 @@
 package pl.dcwiek.noisemeasurementserver.database.model.constants;
 
 public enum Regulation {
-    LEGAL,
+    LAW,
     SCIENTIFIC;
 
     public static boolean contains(String standardName) {
