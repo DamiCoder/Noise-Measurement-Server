@@ -14,6 +14,6 @@ public class StandardModel {
     private final String description;
     private final int minValue;
     private final int maxValue;
-    private final RegulationModel type;
+    private final RegulationModel regulation;
     private final PlaceModel place;
 }
