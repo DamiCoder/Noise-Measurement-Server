@@ -15,6 +15,7 @@ public class ProbeMapper {
                 entity.getResult(),
                 entity.getStandards().stream().map(StandardMapper::mapEntityToModel).collect(Collectors.toList()),
                 entity.getComment(),
+                entity.getUserRating(),
                 entity.getCreatedDate());
     }
 }

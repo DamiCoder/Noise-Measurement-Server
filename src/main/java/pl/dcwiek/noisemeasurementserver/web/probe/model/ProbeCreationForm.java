@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import pl.dcwiek.noisemeasurementserver.database.model.validation.GeoPoints;
 
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
 public class ProbeCreationForm {
@@ -12,7 +14,9 @@ public class ProbeCreationForm {
 
     private final Integer placeId;
 
-    private final Integer typeId;
+    private final Integer regulationId;
+
+    private final List<Integer> standardIds;
 
     private final Integer result;
 

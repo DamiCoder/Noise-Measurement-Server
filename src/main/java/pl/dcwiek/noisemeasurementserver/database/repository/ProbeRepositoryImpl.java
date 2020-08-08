@@ -64,9 +64,11 @@ class ProbeRepositoryImpl implements ProbeRepository {
     @Transactional
     public ProbeModel createProbeModel(String location, Integer placeId, int userId, Integer result, List<Integer> standardIds, String comment, LocalDateTime createdDate, Integer userRating) throws NoSuchUserException, DataMissingException {
         PlaceEntity place = placeEntityRepository.findById(placeId).orElse(null);
+
         if(place == null) {
             throw new DataMissingException("There is no place with provided ID");
         }
+
         Set<StandardEntity> standards = new HashSet<>();
         for (Integer standardId : standardIds) {
             StandardEntity standard = standardEntityRepository.findById(standardId).orElse(null);

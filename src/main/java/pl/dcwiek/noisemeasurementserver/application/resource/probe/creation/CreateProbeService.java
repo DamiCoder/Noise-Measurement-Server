@@ -7,9 +7,6 @@ import pl.dcwiek.noisemeasurementserver.application.resource.service.ProbeServic
 import pl.dcwiek.noisemeasurementserver.application.resource.service.ServiceException;
 import pl.dcwiek.noisemeasurementserver.application.resource.service.StandardService;
 import pl.dcwiek.noisemeasurementserver.domain.resource.ProbeModel;
-import pl.dcwiek.noisemeasurementserver.domain.resource.StandardModel;
-
-import java.util.List;
 
 @Service
 @Slf4j
@@ -33,12 +30,11 @@ public class CreateProbeService {
 
         log.info("CreateProbeService.create probe method invoked: " + command);
 
-        List<StandardModel> standards = standardService.getMatchingStandard(command.getResult(), command.getTypeId(), command.getPlaceId());
-
         return probeService.createProbe(command.getLocation(),
                 command.getPlaceId(),
                 command.getUserId(),
                 command.getResult(),
+                command.getStandardIds(),
                 command.getComment(),
                 command.getUserRating());
     }

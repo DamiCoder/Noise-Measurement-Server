@@ -8,7 +8,7 @@ import pl.dcwiek.noisemeasurementserver.domain.resource.ProbeModel;
 import pl.dcwiek.noisemeasurementserver.domain.resource.repository.ProbeRepository;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Component
@@ -21,19 +21,16 @@ public class ProbeService {
         this.probeRepository = probeRepository;
     }
 
-    public ProbeModel createProbe(String location, Integer placeId, int userId, Integer result, String comment, Integer userRating) throws ServiceException {
+    public ProbeModel createProbe(String location, Integer placeId, int userId, Integer result, List<Integer> standardIds, String comment, Integer userRating) throws ServiceException {
         try {
-            //TODO: try to calculate standards here!
-            //TODO: 1. we should try to get MEDIUM risk standards (result >= min_value && result < max_value)
-            //TODO: 2. we should try to get HIGH risk standards (result >= max_value)
             return probeRepository.createProbeModel(
                     location,
                     placeId,
                     userId,
                     result,
-                    Collections.emptyList(),
+                    standardIds,
                     comment,
-                    LocalDateTime.now(),
+                    LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
                     userRating);
         } catch (DataMissingException | NoSuchUserException e) {
             throw new ServiceException(e.getMessage(), e);

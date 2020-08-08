@@ -1,5 +1,7 @@
 package pl.dcwiek.noisemeasurementserver.database.model.validation;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -12,7 +14,7 @@ public class GeoPointsValidator implements
 
     @Override
     public boolean isValid(String locationField, ConstraintValidatorContext constraintValidatorContext) {
-        if(locationField == null) {
+        if(StringUtils.isBlank(locationField)) {
             return true;
         }
 

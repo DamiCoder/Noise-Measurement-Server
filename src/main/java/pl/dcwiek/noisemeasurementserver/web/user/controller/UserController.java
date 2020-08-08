@@ -1,6 +1,7 @@
 package pl.dcwiek.noisemeasurementserver.web.user.controller;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import pl.dcwiek.noisemeasurementserver.web.user.model.UserRegistrationForm;
 
 @Controller
 @RequestMapping(value = "/public/api/user")
+@Slf4j
 public class UserController {
 
     private final CreateUserService createUserService;
@@ -36,6 +38,8 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<Object> loginUser(Authentication authentication) {
         AppUser user = (AppUser) authentication.getPrincipal();
+
+        log.info("UserController.loginUser method invoked: User logged in: {}", user.toString());
         return ResponseEntity.ok(user);
     }
 

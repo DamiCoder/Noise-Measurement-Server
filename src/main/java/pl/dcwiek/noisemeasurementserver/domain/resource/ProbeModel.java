@@ -15,20 +15,14 @@ import java.util.List;
 public class ProbeModel {
 
     private final Integer id;
-
     @GeoPoints
     private final String location;
-
     private final PlaceModel place;
-
     private final AppUser appUser;
-
     private final Integer result;
-
     private final List<StandardModel> standards;
-
     private final String comment;
-
+    private final Integer userRating;
     private final LocalDateTime createdDate;
 
 }

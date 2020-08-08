@@ -20,8 +20,8 @@ public class StandardService {
     }
 
     public StandardModel getOrCreateStandard(String title, String description, int maxValue, int minValue, int regulationId, int placeId) throws ServiceException {
-        try{
-            try{
+        try {
+            try {
                 return standardRepository.createStandardModel(title, description, minValue, maxValue, regulationId, placeId);
             } catch (DataAlreadyExistsException e) {
                 return standardRepository.getStandardModel(title, regulationId, placeId);
@@ -31,12 +31,9 @@ public class StandardService {
         }
     }
 
-    public List<StandardModel> getMatchingStandard(int result, int regulationId, int placeId) throws ServiceException {
-        try {
-            return standardRepository.getMatchingStandardModels(regulationId, result, placeId);
-        } catch (DataMissingException e) {
-            throw new ServiceException(e.getMessage(), e);
-        }
+    public StandardModel getStandard(int standardId) {
+        return standardRepository.getStandardModel(standardId);
+
     }
 
     public List<StandardModel> getStandards() {

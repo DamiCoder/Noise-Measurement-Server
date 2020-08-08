@@ -1,5 +1,7 @@
 package pl.dcwiek.noisemeasurementserver.web.probe.controller;
 
+import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +12,6 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/api/probe")
+@Slf4j
 public class ProbeController {
 
     private final CreateProbeService createProbeService;
@@ -49,7 +51,12 @@ public class ProbeController {
 
     @PostMapping("/upload")
     @PreAuthorize("hasAuthority('" + UserRole.APP_USER_ROLE + "')")
-    public ResponseEntity<Object> create(@RequestBody ProbeCreationForm probeCreationForm, BindingResult bindingResult, Authentication authentication) throws ServiceException, BindException {
+    public ResponseEntity<Object> create(@RequestBody ProbeCreationForm probeCreationForm,
+                                         BindingResult bindingResult,
+                                         Authentication authentication) throws ServiceException, BindException {
+
+        log.info(new Gson().toJson(probeCreationForm))
+        ;
         ValidationUtils.invokeValidator(probeCreationFormValidator, probeCreationForm, bindingResult);
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
@@ -59,7 +66,8 @@ public class ProbeController {
                 appUser.getId(),
                 probeCreationForm.getResult(),
                 probeCreationForm.getPlaceId(),
-                probeCreationForm.getTypeId(),
+                probeCreationForm.getRegulationId(),
+                probeCreationForm.getStandardIds(),
                 probeCreationForm.getLocation(),
                 probeCreationForm.getComment(),
                 probeCreationForm.getUserRating());
@@ -68,7 +76,7 @@ public class ProbeController {
         return ResponseEntity.ok(probe);
     }
 
-    @GetMapping("/retrieve")
+    @PostMapping("/retrieveAll")
     @PreAuthorize("hasAuthority('" + UserRole.APP_USER_ROLE + "')")
     public ResponseEntity<Object> getUserProbes(
             @RequestBody ProbeRetrievalForm probeRetrievalForm,

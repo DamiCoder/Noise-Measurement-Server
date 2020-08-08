@@ -14,7 +14,5 @@ public interface StandardRepository {
 
     StandardModel getStandardModel(String title, int typeId, int placeId) throws DataMissingException;
 
-    List<StandardModel> getMatchingStandardModels(int typeId, int result, int placeId) throws DataMissingException;
-
     List<StandardModel> getStandards();
 }

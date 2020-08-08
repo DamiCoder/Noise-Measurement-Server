@@ -30,7 +30,7 @@ public class StandardEntity {
     private Integer maxValue;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "type_id", referencedColumnName = "id")
+    @JoinColumn(name = "regulation_id", referencedColumnName = "id")
     private RegulationEntity regulation;
 
     @ManyToOne(cascade = CascadeType.ALL)

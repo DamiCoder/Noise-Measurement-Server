@@ -70,20 +70,6 @@ class StandardRepositoryImpl implements StandardRepository {
     }
 
     @Override
-    public List<StandardModel> getMatchingStandardModels(int typeId, int result, int placeId) throws DataMissingException {
-        RegulationEntity regulation = regulationEntityRepository.findById(typeId).orElse(null);
-        if(regulation == null) {
-            throw new DataMissingException(String.format("There is no type with id '%s'", typeId));
-        }
-        PlaceEntity place = placeEntityRepository.findById(placeId).orElse(null);
-        if(place == null) {
-            throw new DataMissingException(String.format("There is no place with id '%s'", placeId));
-        }
-        List<StandardEntity> standards = standardEntityRepository.findAllByMinValueLessThanEqualAndMaxValueGreaterThanEqualAndRegulationAndPlace(result, result, regulation, place);
-        return standards.stream().map(StandardMapper::mapEntityToModel).collect(Collectors.toList());
-    }
-
-    @Override
     public List<StandardModel> getStandards() {
         return standardEntityRepository.findAll().stream().map(StandardMapper::mapEntityToModel).collect(Collectors.toList());
     }

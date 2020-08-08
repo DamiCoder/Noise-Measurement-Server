@@ -16,4 +16,14 @@ public class AppUser {
     private final LocalDateTime createdDate;
 
     private final Set<UserRoleEntity> userRoles;
+
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", createdDate=" + createdDate +
+                ", userRoles=" + userRoles +
+                '}';
+    }
 }

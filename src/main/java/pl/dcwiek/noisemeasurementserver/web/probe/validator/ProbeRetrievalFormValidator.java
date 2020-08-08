@@ -18,8 +18,10 @@ public class ProbeRetrievalFormValidator implements Validator {
 
         ProbeRetrievalForm probeRetrievalForm = (ProbeRetrievalForm) o;
 
-        if(probeRetrievalForm.getPageSize() <= 0) {
-            errors.rejectValue("pageSize", "page_size.not.provided");
+        if(probeRetrievalForm.getPageSize() != null) {
+            if(probeRetrievalForm.getPageSize() <= 0) {
+                errors.rejectValue("pageSize", "page_size.not.provided");
+            }
         }
     }
 }
