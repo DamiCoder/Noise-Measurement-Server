@@ -15,6 +15,8 @@ public class AppUser {
 
     private final LocalDateTime createdDate;
 
+    private final boolean firstLogIn;
+
     private final Set<UserRoleEntity> userRoles;
 
     @Override

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.dcwiek.noisemeasurementserver.application.resource.service.ServiceException;
+import pl.dcwiek.noisemeasurementserver.application.resource.service.UserService;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.creation.CreateUserCommand;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.creation.CreateUserService;
 import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
@@ -26,20 +27,24 @@ import pl.dcwiek.noisemeasurementserver.web.user.model.UserRegistrationForm;
 public class UserController {
 
     private final CreateUserService createUserService;
+    private final UserService userService;
     private final Validator userRegistrationFormValidator;
 
     @Autowired
     UserController(CreateUserService createUserService,
-                   @Qualifier(value = "userRegistrationFormValidator") Validator userRegistrationFormValidator) {
+                   UserService userService, @Qualifier(value = "userRegistrationFormValidator") Validator userRegistrationFormValidator) {
         this.createUserService = createUserService;
+        this.userService = userService;
         this.userRegistrationFormValidator = userRegistrationFormValidator;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> loginUser(Authentication authentication) {
+    public ResponseEntity<Object> logIn(Authentication authentication) throws ServiceException {
         AppUser user = (AppUser) authentication.getPrincipal();
-
         log.info("UserController.loginUser method invoked: User logged in: {}", user.toString());
+        if(user.isFirstLogIn()) {
+            userService.updateUserLogInInfo(user);
+        }
         return ResponseEntity.ok(user);
     }
 

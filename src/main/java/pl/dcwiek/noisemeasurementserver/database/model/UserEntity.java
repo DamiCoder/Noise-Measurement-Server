@@ -29,6 +29,9 @@ public class UserEntity {
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
+    @Column(name = "first_log_in")
+    private boolean firstLogIn;
+
     @ManyToMany(targetEntity = UserRoleEntity.class, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_to_user_role",
@@ -41,7 +44,7 @@ public class UserEntity {
         return this;
     }
 
-    public UserEntity(Integer id, String username, String password, UserRoleEntity userRole) {
+    public UserEntity(Integer id, String username, String password, UserRoleEntity userRole, boolean firstLogIn) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -49,5 +52,6 @@ public class UserEntity {
         Set<UserRoleEntity> userRoles = new HashSet<>();
         userRoles.add(userRole);
         this.userRoles = userRoles;
+        this.firstLogIn = firstLogIn;
     }
 }

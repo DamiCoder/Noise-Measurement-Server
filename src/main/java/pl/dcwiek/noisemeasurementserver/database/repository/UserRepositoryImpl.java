@@ -46,9 +46,22 @@ class UserRepositoryImpl implements UserRepository {
             throw new UsernameAlreadyExistsException();
         } else {
             String hashedPassword = shaService.hashPassword(password);
-            UserEntity user = new UserEntity(0, username, hashedPassword, userRoleEntityRepository.findByUserRole(UserRole.USER));
+            UserEntity user = new UserEntity(0, username, hashedPassword, userRoleEntityRepository.findByUserRole(UserRole.USER), true);
             user = userEntityRepository.save(user);
             return UserMapper.mapEntityToModel(user);
         }
+    }
+
+    @Override
+    @Transactional
+    public void updateAppUser(AppUser appUser) throws NoSuchUserException {
+        UserEntity user = userEntityRepository.findById(appUser.getId()).orElse(null);
+        if(user == null) {
+            throw new NoSuchUserException("No user exists with given ID");
+        }
+        user.setCreatedDate(appUser.getCreatedDate());
+        user.setFirstLogIn(appUser.isFirstLogIn());
+        user.setUserRoles(appUser.getUserRoles());
+        userEntityRepository.save(user);
     }
 }

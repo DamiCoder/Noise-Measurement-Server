@@ -9,4 +9,6 @@ public interface UserRepository {
     AppUser getUser(String username, String password) throws NoSuchUserException;
 
     AppUser createUser(String username, String password) throws UsernameAlreadyExistsException;
+
+    void updateAppUser(AppUser appUser) throws NoSuchUserException;
 }
