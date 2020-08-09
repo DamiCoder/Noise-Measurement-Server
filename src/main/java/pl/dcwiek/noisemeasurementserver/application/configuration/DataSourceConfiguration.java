@@ -1,6 +1,8 @@
 package pl.dcwiek.noisemeasurementserver.application.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -14,14 +16,22 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {"pl.dcwiek.noisemeasurementserver.database"})
+@Slf4j
 public class DataSourceConfiguration {
+
+    @Value("${spring.datasource.url}")
+    private String dbUrl;
+
     @ConfigurationProperties(prefix = "spring.datasource")
     @Bean
     @Primary
     public DataSource dataSource() {
+        log.info("Postgresql database url: {}", dbUrl);
+
         return DataSourceBuilder
                 .create()
                 .type(HikariDataSource.class)
+                .url(dbUrl)
                 .build();
     }
 }
