@@ -31,7 +31,7 @@ public class DataSourceConfiguration {
         return DataSourceBuilder
                 .create()
                 .type(HikariDataSource.class)
-                .url(dbUrl)
+                .url(dbUrl + "&useUnicode=true&characterEncoding=utf-8")
                 .build();
     }
 }
