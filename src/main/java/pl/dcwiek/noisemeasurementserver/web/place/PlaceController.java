@@ -1,5 +1,7 @@
 package pl.dcwiek.noisemeasurementserver.web.place;
 
+import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/api/place")
+@Slf4j
 public class PlaceController {
 
     private final PlaceService placeService;
@@ -29,6 +32,7 @@ public class PlaceController {
     public ResponseEntity<Object> getPlaces() {
 
         List<PlaceModel> placeModels = placeService.getPlaces();
+        log.info("Sent place models: {}", new Gson().toJson(placeModels));
         return ResponseEntity.ok(placeModels);
     }
 }
