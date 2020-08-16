@@ -18,7 +18,7 @@ import java.util.Collections;
 public class SoundLevelService {
 
     private AudioDispatcher dispatcher;
-    private double amplitudeReferenceValue = 0.0070536;
+    private double amplitudeReferenceValue;
     private final static int FFT_SIZE = 2048;
     final ArrayList<Float> allAmplitudes = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public class SoundLevelService {
                 fft.modulus(audioBuffer, amplitudes);
 
                 Collections.addAll(allAmplitudes, ArrayUtils.toObject(amplitudes));
-                System.out.println(String.format("%s. Amplitudes  : ", counter[0]) + Arrays.toString(amplitudes));
+                log.debug(String.format("%s. Amplitudes  : ", counter[0]) + Arrays.toString(amplitudes));
 
                 counter[0]++;
                 return false;
