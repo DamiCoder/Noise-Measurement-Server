@@ -1,7 +1,7 @@
 package pl.dcwiek.noisemeasurementserver.application.resource.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import pl.dcwiek.noisemeasurementserver.domain.DataMissingException;
 import pl.dcwiek.noisemeasurementserver.domain.NoSuchUserException;
 import pl.dcwiek.noisemeasurementserver.domain.resource.ProbeModel;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-@Component
+@Service
 public class ProbeService {
 
     private final ProbeRepository probeRepository;
