@@ -24,9 +24,9 @@ public class ProbeProcessingService {
             throw new IllegalArgumentException("Command can not be null");
         }
 
-        soundLevelService.initDispatcher(command.getProbe().getAbsolutePath());
+        soundLevelService.initDispatcher(command.getProbe().getAbsolutePath(), command.getAmplitudeReferenceValue());
         try {
-            soundLevelService.startSoundAnalyzer(command.getAmplitudeReferenceValue());
+            soundLevelService.startSoundAnalyzer();
         } catch (InterruptedException e) {
             throw new ServiceException(e.getMessage(), e);
         }
