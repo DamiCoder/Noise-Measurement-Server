@@ -59,9 +59,12 @@ public class SoundLevelService {
     }
 
     public double countDbLevel() {
-        double aRef = amplitudeReferenceValue;
-        double aMeasured = rootMeanSquare(allAmplitudes);
-        double amplitudeRatio = aMeasured/aRef;
+//        double aRef = amplitudeReferenceValue;
+//        double aMeasured = rootMeanSquare(allAmplitudes);
+//        double amplitudeRatio = aMeasured/aRef;
+//        return 20 * Math.log10(amplitudeRatio);
+        double aMeasured = allAmplitudes.stream().mapToDouble(val -> val).average().getAsDouble();
+        double amplitudeRatio = aMeasured/amplitudeReferenceValue;
         return 20 * Math.log10(amplitudeRatio);
     }
 
