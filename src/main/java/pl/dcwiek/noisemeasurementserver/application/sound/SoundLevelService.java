@@ -63,7 +63,9 @@ public class SoundLevelService {
 //        double aMeasured = rootMeanSquare(allAmplitudes);
 //        double amplitudeRatio = aMeasured/aRef;
 //        return 20 * Math.log10(amplitudeRatio);
+
         double aMeasured = allAmplitudes.stream().mapToDouble(val -> val).average().getAsDouble();
+        System.out.println(String.format("A average value: %s", aMeasured));
         double amplitudeRatio = aMeasured/amplitudeReferenceValue;
         return 20 * Math.log10(amplitudeRatio);
     }
