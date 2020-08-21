@@ -1,7 +1,7 @@
 package pl.dcwiek.noisemeasurementserver.application.resource.probe.creation;
 
 import lombok.Data;
-import pl.dcwiek.noisemeasurementserver.database.model.validation.GeoPoints;
+import pl.dcwiek.noisemeasurementserver.infrastructure.model.validation.GeoPoints;
 
 import java.util.List;
 

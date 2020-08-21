@@ -3,8 +3,8 @@ package pl.dcwiek.noisemeasurementserver.security.model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import pl.dcwiek.noisemeasurementserver.database.model.UserEntity;
-import pl.dcwiek.noisemeasurementserver.database.model.UserRoleEntity;
+import pl.dcwiek.noisemeasurementserver.infrastructure.model.UserEntity;
+import pl.dcwiek.noisemeasurementserver.infrastructure.model.UserRoleEntity;
 
 import java.util.ArrayList;
 import java.util.Collection;

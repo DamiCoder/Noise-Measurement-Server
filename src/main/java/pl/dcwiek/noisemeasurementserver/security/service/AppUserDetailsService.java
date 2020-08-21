@@ -5,8 +5,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.dcwiek.noisemeasurementserver.database.model.UserEntity;
-import pl.dcwiek.noisemeasurementserver.database.repository.UserEntityRepository;
+import pl.dcwiek.noisemeasurementserver.infrastructure.model.UserEntity;
+import pl.dcwiek.noisemeasurementserver.infrastructure.resource.repository.UserEntityRepository;
 import pl.dcwiek.noisemeasurementserver.security.model.ExtUserDetails;
 
 @Service

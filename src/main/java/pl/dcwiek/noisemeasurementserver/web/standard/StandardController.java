@@ -6,9 +6,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.dcwiek.noisemeasurementserver.application.resource.service.StandardService;
-import pl.dcwiek.noisemeasurementserver.database.model.constants.UserRole;
 import pl.dcwiek.noisemeasurementserver.domain.resource.StandardModel;
+import pl.dcwiek.noisemeasurementserver.domain.service.StandardService;
+import pl.dcwiek.noisemeasurementserver.infrastructure.model.constants.UserRole;
 
 import java.util.List;
 

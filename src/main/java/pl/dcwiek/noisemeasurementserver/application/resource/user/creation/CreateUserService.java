@@ -3,9 +3,9 @@ package pl.dcwiek.noisemeasurementserver.application.resource.user.creation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.dcwiek.noisemeasurementserver.application.resource.service.ServiceException;
 import pl.dcwiek.noisemeasurementserver.domain.UsernameAlreadyExistsException;
 import pl.dcwiek.noisemeasurementserver.domain.resource.repository.UserRepository;
+import pl.dcwiek.noisemeasurementserver.domain.service.ServiceException;
 import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
 
 @Service

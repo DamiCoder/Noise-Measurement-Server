@@ -3,10 +3,10 @@ package pl.dcwiek.noisemeasurementserver.application.resource.probe.creation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.dcwiek.noisemeasurementserver.application.resource.service.ProbeService;
-import pl.dcwiek.noisemeasurementserver.application.resource.service.ServiceException;
-import pl.dcwiek.noisemeasurementserver.application.resource.service.StandardService;
 import pl.dcwiek.noisemeasurementserver.domain.resource.ProbeModel;
+import pl.dcwiek.noisemeasurementserver.domain.service.ProbeService;
+import pl.dcwiek.noisemeasurementserver.domain.service.ServiceException;
+import pl.dcwiek.noisemeasurementserver.domain.service.StandardService;
 
 @Service
 @Slf4j

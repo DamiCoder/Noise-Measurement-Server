@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import pl.dcwiek.noisemeasurementserver.util.EmailUtils;
+import pl.dcwiek.noisemeasurementserver.application.util.EmailUtils;
 import pl.dcwiek.noisemeasurementserver.web.user.model.UserRegistrationForm;
 
 import javax.annotation.Resource;

@@ -25,9 +25,9 @@ import pl.dcwiek.noisemeasurementserver.application.resource.probe.process.Count
 import pl.dcwiek.noisemeasurementserver.application.resource.probe.process.ProbeProcessingService;
 import pl.dcwiek.noisemeasurementserver.application.resource.probe.retrieval.GetProbeService;
 import pl.dcwiek.noisemeasurementserver.application.resource.probe.retrieval.GetProbesCommand;
-import pl.dcwiek.noisemeasurementserver.application.resource.service.ServiceException;
-import pl.dcwiek.noisemeasurementserver.database.model.constants.UserRole;
 import pl.dcwiek.noisemeasurementserver.domain.resource.ProbeModel;
+import pl.dcwiek.noisemeasurementserver.domain.service.ServiceException;
+import pl.dcwiek.noisemeasurementserver.infrastructure.model.constants.UserRole;
 import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
 import pl.dcwiek.noisemeasurementserver.web.probe.model.ProbeCreationForm;
 import pl.dcwiek.noisemeasurementserver.web.probe.model.ProbeRetrievalForm;

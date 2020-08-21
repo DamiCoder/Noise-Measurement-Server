@@ -1,7 +1,7 @@
 package pl.dcwiek.noisemeasurementserver.security.model;
 
 import lombok.Data;
-import pl.dcwiek.noisemeasurementserver.database.model.UserRoleEntity;
+import pl.dcwiek.noisemeasurementserver.infrastructure.model.UserRoleEntity;
 
 import java.time.LocalDateTime;
 import java.util.Set;

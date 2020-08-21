@@ -14,10 +14,10 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.dcwiek.noisemeasurementserver.application.resource.service.ServiceException;
-import pl.dcwiek.noisemeasurementserver.application.resource.service.UserService;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.creation.CreateUserCommand;
 import pl.dcwiek.noisemeasurementserver.application.resource.user.creation.CreateUserService;
+import pl.dcwiek.noisemeasurementserver.domain.service.ServiceException;
+import pl.dcwiek.noisemeasurementserver.domain.service.UserService;
 import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
 import pl.dcwiek.noisemeasurementserver.web.user.model.UserRegistrationForm;
 

@@ -2,7 +2,7 @@ package pl.dcwiek.noisemeasurementserver.web.probe.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import pl.dcwiek.noisemeasurementserver.database.model.validation.GeoPoints;
+import pl.dcwiek.noisemeasurementserver.infrastructure.model.validation.GeoPoints;
 
 import java.util.List;
 
