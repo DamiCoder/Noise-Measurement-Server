@@ -1,7 +1,7 @@
 package pl.dcwiek.noisemeasurementserver.infrastructure.model.mapper;
 
 import pl.dcwiek.noisemeasurementserver.infrastructure.model.UserEntity;
-import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
+import pl.dcwiek.noisemeasurementserver.infrastructure.security.model.AppUser;
 
 public class UserMapper {
 

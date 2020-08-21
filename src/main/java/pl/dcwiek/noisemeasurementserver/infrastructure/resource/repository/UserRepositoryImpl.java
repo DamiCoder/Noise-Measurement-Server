@@ -8,8 +8,8 @@ import pl.dcwiek.noisemeasurementserver.domain.resource.repository.UserRepositor
 import pl.dcwiek.noisemeasurementserver.infrastructure.model.UserEntity;
 import pl.dcwiek.noisemeasurementserver.infrastructure.model.constants.UserRole;
 import pl.dcwiek.noisemeasurementserver.infrastructure.model.mapper.UserMapper;
-import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
-import pl.dcwiek.noisemeasurementserver.security.service.ShaService;
+import pl.dcwiek.noisemeasurementserver.infrastructure.security.model.AppUser;
+import pl.dcwiek.noisemeasurementserver.infrastructure.security.service.ShaService;
 
 import javax.transaction.Transactional;
 

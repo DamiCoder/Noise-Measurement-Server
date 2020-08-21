@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.dcwiek.noisemeasurementserver.domain.NoSuchUserException;
 import pl.dcwiek.noisemeasurementserver.domain.resource.repository.UserRepository;
-import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
+import pl.dcwiek.noisemeasurementserver.infrastructure.security.model.AppUser;
 
 @Service
 public class UserService {

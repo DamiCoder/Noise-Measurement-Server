@@ -2,7 +2,7 @@ package pl.dcwiek.noisemeasurementserver.domain.resource.repository;
 
 import pl.dcwiek.noisemeasurementserver.domain.NoSuchUserException;
 import pl.dcwiek.noisemeasurementserver.domain.UsernameAlreadyExistsException;
-import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
+import pl.dcwiek.noisemeasurementserver.infrastructure.security.model.AppUser;
 
 public interface UserRepository {
 

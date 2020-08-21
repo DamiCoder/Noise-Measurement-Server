@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.dcwiek.noisemeasurementserver.domain.UsernameAlreadyExistsException;
 import pl.dcwiek.noisemeasurementserver.domain.resource.repository.UserRepository;
 import pl.dcwiek.noisemeasurementserver.domain.service.ServiceException;
-import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
+import pl.dcwiek.noisemeasurementserver.infrastructure.security.model.AppUser;
 
 @Service
 @Slf4j
