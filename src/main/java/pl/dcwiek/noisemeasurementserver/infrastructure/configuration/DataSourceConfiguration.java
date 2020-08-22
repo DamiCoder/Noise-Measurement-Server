@@ -26,7 +26,7 @@ public class DataSourceConfiguration {
     @Bean
     @Primary
     public DataSource dataSource() {
-        log.trace("Postgresql database url: {}", dbUrl);
+        log.trace("Postgres database url: {}", dbUrl);
 
         return DataSourceBuilder
                 .create()

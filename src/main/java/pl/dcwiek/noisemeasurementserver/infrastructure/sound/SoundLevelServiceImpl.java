@@ -4,7 +4,6 @@ import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioEvent;
 import be.tarsos.dsp.AudioProcessor;
 import be.tarsos.dsp.io.jvm.AudioDispatcherFactory;
-import be.tarsos.dsp.util.fft.FFT;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Service;
@@ -13,6 +12,7 @@ import pl.dcwiek.noisemeasurementserver.domain.sound.SoundLevelService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -28,18 +28,17 @@ public class SoundLevelServiceImpl implements SoundLevelService {
 
         final int[] counter = {1};
         AudioProcessor FFTProc = new AudioProcessor() {
-            final FFT fft = new FFT(FFT_SIZE);
-            final float[] amplitudes = new float[FFT_SIZE];
-
+//            final FFT fft = new FFT(FFT_SIZE);
+//            final float[] amplitudes = new float[FFT_SIZE];
             @Override
             public boolean process(AudioEvent audioEvent) {
                 float[] audioBuffer = audioEvent.getFloatBuffer();
 
-                fft.forwardTransform(audioBuffer);
-                fft.modulus(audioBuffer, amplitudes);
+//                fft.forwardTransform(audioBuffer);
+//                fft.modulus(audioBuffer, amplitudes);
 
-                Collections.addAll(allAmplitudes, ArrayUtils.toObject(amplitudes));
-                log.debug(String.format("%s. Amplitudes  : ", counter[0]) + Arrays.toString(amplitudes));
+                Collections.addAll(allAmplitudes, ArrayUtils.toObject(audioBuffer));
+                log.debug(String.format("%s. Amplitudes  : ", counter[0]) + Arrays.toString(audioBuffer));
 
                 counter[0]++;
                 return false;
@@ -59,10 +58,20 @@ public class SoundLevelServiceImpl implements SoundLevelService {
     }
 
     public double countDbLevel() {
-        double aMeasured = allAmplitudes.stream().mapToDouble(val -> val).average().getAsDouble();
-        log.info(String.format("An average value: %s", aMeasured));
+        double aMeasured = calculateRMS(allAmplitudes);
+        log.info(String.format("An average signal value: %s", aMeasured));
         double amplitudeRatio = aMeasured/amplitudeReferenceValue;
         return 20 * Math.log10(amplitudeRatio);
+    }
+
+    public static double calculateRMS(List<Float> floatBuffer){
+        double rms = 0.0;
+        for (Float aFloat : floatBuffer) {
+            rms += aFloat * aFloat;
+        }
+        rms = rms / (double) floatBuffer.size();
+        rms = Math.sqrt(rms);
+        return rms;
     }
 
 //    public double rootMeanSquare(ArrayList<Float> nums) {
