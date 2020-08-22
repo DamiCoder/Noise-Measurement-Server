@@ -46,6 +46,7 @@ public class SoundLevelServiceImpl implements SoundLevelService {
             @Override
             public void processingFinished() {
                 double dBLevel = countDbLevel();
+                log.info("All amplitudes size: {}", allAmplitudes.size());
                 log.info("Probe processing finished. Used reference value: {}, processed dB level: {}", amplitudeReferenceValue, dBLevel);
             }
         };
