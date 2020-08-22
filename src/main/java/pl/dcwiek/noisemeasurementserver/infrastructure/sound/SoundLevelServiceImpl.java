@@ -9,9 +9,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Service;
 import pl.dcwiek.noisemeasurementserver.domain.sound.SoundLevelService;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -20,12 +20,12 @@ public class SoundLevelServiceImpl implements SoundLevelService {
 
     private double amplitudeReferenceValue;
     private final static int FFT_SIZE = 2048;
-    final ArrayList<Float> allAmplitudes = new ArrayList<>();
+    private List<Float> allAmplitudes;
 
     public double countSoundDbLevel(String audioFilePath, float amplitudeReferenceValue) throws InterruptedException {
         this.amplitudeReferenceValue = amplitudeReferenceValue;
         AudioDispatcher dispatcher = AudioDispatcherFactory.fromPipe(audioFilePath, 44100, 4096, 2048);
-
+        allAmplitudes = new LinkedList<>();
         final int[] counter = {1};
         AudioProcessor FFTProc = new AudioProcessor() {
 //            final FFT fft = new FFT(FFT_SIZE);
