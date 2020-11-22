@@ -3,8 +3,8 @@ package pl.dcwiek.noisemeasurementserver.domain.resource;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
-import pl.dcwiek.noisemeasurementserver.database.model.validation.GeoPoints;
-import pl.dcwiek.noisemeasurementserver.security.model.AppUser;
+import pl.dcwiek.noisemeasurementserver.infrastructure.model.validation.GeoPoints;
+import pl.dcwiek.noisemeasurementserver.infrastructure.security.model.AppUser;
 
 import java.time.LocalDateTime;
 import java.util.List;
