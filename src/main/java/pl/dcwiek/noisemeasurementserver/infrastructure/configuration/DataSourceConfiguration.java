@@ -19,8 +19,8 @@ import javax.sql.DataSource;
 @Slf4j
 public class DataSourceConfiguration {
 
-    //Injected through environment variable
-    @Value("#{environment.NOISE_MEASUREMENT_DB_URL}")
+    // Injected by Heroku to application.properties
+    @Value("${spring.datasource.url}")
     private String dbUrl;
 
     @ConfigurationProperties(prefix = "spring.datasource")
