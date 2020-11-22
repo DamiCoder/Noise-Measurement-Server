@@ -1,6 +1,5 @@
 package pl.dcwiek.noisemeasurementserver.application.web.user.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

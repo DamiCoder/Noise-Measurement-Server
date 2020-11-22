@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AccessDeniedHandler implements org.springframework.security.web.access.AccessDeniedHandler {
 
     @Override
-    public void handle(HttpServletRequest httpServletRequest,
-                       HttpServletResponse httpServletResponse,
-                       AccessDeniedException e)
+    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e)
             throws ServletException {
         httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         try {

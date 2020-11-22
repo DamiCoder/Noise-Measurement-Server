@@ -19,14 +19,15 @@ import javax.sql.DataSource;
 @Slf4j
 public class DataSourceConfiguration {
 
-    @Value("${spring.datasource.url}")
+    //Injected through environment variable
+    @Value("#{environment.NOISE_MEASUREMENT_DB_URL}")
     private String dbUrl;
 
     @ConfigurationProperties(prefix = "spring.datasource")
     @Bean
     @Primary
     public DataSource dataSource() {
-        log.trace("Postgres database url: {}", dbUrl);
+        log.trace("Database url: {}", dbUrl);
 
         return DataSourceBuilder
                 .create()

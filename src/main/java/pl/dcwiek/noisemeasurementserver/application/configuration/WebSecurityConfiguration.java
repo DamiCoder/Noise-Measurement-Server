@@ -22,12 +22,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final AppAuthenticationProvider appAuthenticationProvider;
 
-    @Autowired
-    private BasicAuthEntryPoint basicAuthEntryPoint;
+    private final BasicAuthEntryPoint basicAuthEntryPoint;
 
     @Autowired
-    public WebSecurityConfiguration(AppAuthenticationProvider appAuthenticationProvider) {
+    public WebSecurityConfiguration(AppAuthenticationProvider appAuthenticationProvider,
+                                    BasicAuthEntryPoint basicAuthEntryPoint) {
         this.appAuthenticationProvider = appAuthenticationProvider;
+        this.basicAuthEntryPoint = basicAuthEntryPoint;
     }
 
     @Override
@@ -38,8 +39,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.requiresChannel()
-                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null).requiresSecure()
+        http
+                .requiresChannel().requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null).requiresSecure()
                 .and()
                 .authorizeRequests()
                 .antMatchers("api/public/**").permitAll()

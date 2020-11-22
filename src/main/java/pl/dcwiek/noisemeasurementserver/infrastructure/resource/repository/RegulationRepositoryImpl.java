@@ -20,7 +20,7 @@ class RegulationRepositoryImpl implements RegulationRepository {
     private final RegulationEntityRepository regulationEntityRepository;
 
     @Autowired
-    public RegulationRepositoryImpl(RegulationEntityRepository regulationEntityRepository) {
+    RegulationRepositoryImpl(RegulationEntityRepository regulationEntityRepository) {
         this.regulationEntityRepository = regulationEntityRepository;
     }
 

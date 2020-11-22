@@ -21,7 +21,8 @@ public class ProbeService {
         this.probeRepository = probeRepository;
     }
 
-    public ProbeModel createProbe(String location, Integer placeId, int userId, Integer result, List<Integer> standardIds, String comment, Integer userRating) throws ServiceException {
+    public ProbeModel createProbe(String location, Integer placeId, int userId, Integer result, List<Integer> standardIds, String comment, Integer userRating)
+            throws ServiceException {
         try {
             return probeRepository.createProbeModel(
                     location,
@@ -33,14 +34,6 @@ public class ProbeService {
                     LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
                     userRating);
         } catch (DataMissingException | NoSuchUserException e) {
-            throw new ServiceException(e.getMessage(), e);
-        }
-    }
-
-    public List<ProbeModel> getProbes(int userId, Integer count, Integer pageSize) throws ServiceException {
-        try{
-            return probeRepository.findByUserIdAndOrderByCreatedDate(userId, count, pageSize);
-        } catch (NoSuchUserException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }

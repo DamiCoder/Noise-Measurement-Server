@@ -23,7 +23,9 @@ class StandardRepositoryImpl implements StandardRepository {
     private final PlaceEntityRepository placeEntityRepository;
 
     @Autowired
-    public StandardRepositoryImpl(StandardEntityRepository standardEntityRepository, RegulationEntityRepository regulationEntityRepository, PlaceEntityRepository placeEntityRepository) {
+    StandardRepositoryImpl(StandardEntityRepository standardEntityRepository,
+                                  RegulationEntityRepository regulationEntityRepository,
+                                  PlaceEntityRepository placeEntityRepository) {
         this.standardEntityRepository = standardEntityRepository;
         this.regulationEntityRepository = regulationEntityRepository;
         this.placeEntityRepository = placeEntityRepository;
@@ -31,7 +33,8 @@ class StandardRepositoryImpl implements StandardRepository {
 
     @Override
     @Transactional
-    public StandardModel createStandardModel(String title, String description, int minValue, int maxValue, int regulationId, int placeId) throws DataAlreadyExistsException, DataMissingException {
+    public StandardModel createStandardModel(String title, String description, int minValue, int maxValue, int regulationId, int placeId)
+            throws DataAlreadyExistsException, DataMissingException {
         RegulationEntity regulation = regulationEntityRepository.findById(regulationId).orElse(null);
         if(regulation == null) {
             throw new DataMissingException(String.format("There is no type with id '%s'", regulationId));
@@ -42,7 +45,8 @@ class StandardRepositoryImpl implements StandardRepository {
         }
         StandardEntity standard = standardEntityRepository.findByTitleAndRegulationAndPlace(title, regulation, place).orElse(null);
         if(standard != null) {
-            throw new DataAlreadyExistsException(String.format("Standard with title '%s' and type '%s' already exists in the system", title, regulation.getRegulation().name()));
+            throw new DataAlreadyExistsException(String.format("Standard with title '%s' and type '%s' already exists in the system",
+                    title, regulation.getRegulation().name()));
         }
 
         standard = standardEntityRepository.save(new StandardEntity(0, title, description, minValue, maxValue, regulation, place));

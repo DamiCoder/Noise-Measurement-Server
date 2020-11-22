@@ -1,10 +1,12 @@
 package pl.dcwiek.noisemeasurementserver.infrastructure.resource.repository;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.dcwiek.noisemeasurementserver.domain.NoSuchUserException;
 import pl.dcwiek.noisemeasurementserver.domain.UsernameAlreadyExistsException;
 import pl.dcwiek.noisemeasurementserver.domain.resource.repository.UserRepository;
+import pl.dcwiek.noisemeasurementserver.domain.service.ServiceException;
 import pl.dcwiek.noisemeasurementserver.infrastructure.model.UserEntity;
 import pl.dcwiek.noisemeasurementserver.infrastructure.model.constants.UserRole;
 import pl.dcwiek.noisemeasurementserver.infrastructure.model.mapper.UserMapper;
@@ -41,11 +43,14 @@ class UserRepositoryImpl implements UserRepository {
 
     @Override
     @Transactional
-    public AppUser createUser(String username, String password) throws UsernameAlreadyExistsException {
+    public AppUser createUser(String username, String password) throws UsernameAlreadyExistsException, ServiceException {
         if (userEntityRepository.existsByUsername(username)) {
             throw new UsernameAlreadyExistsException();
         } else {
             String hashedPassword = shaService.hashPassword(password);
+            if(StringUtils.isBlank(hashedPassword)) {
+                throw new ServiceException("User password wasn't properly hashed. User won't be created.");
+            }
             UserEntity user = new UserEntity(0, username, hashedPassword, userRoleEntityRepository.findByUserRole(UserRole.USER), true);
             user = userEntityRepository.save(user);
             return UserMapper.mapEntityToModel(user);

@@ -19,50 +19,46 @@ import java.util.List;
 public class SoundLevelServiceImpl implements SoundLevelService {
 
     private double amplitudeReferenceValue;
-    private final static int FFT_SIZE = 2048;
-    private List<Float> allAmplitudes;
+    private List<Float> aggregatedAmplitudes;
+    private final static int TARGET_SAMPLE_RATE = 44100;
+    private final static int AUDIO_BUFFER_SIZE = 4096;
+    private final static int BUFFER_OVERLAP = 2048;
 
     public double countSoundDbLevel(String audioFilePath, float amplitudeReferenceValue) throws InterruptedException {
         this.amplitudeReferenceValue = amplitudeReferenceValue;
-        AudioDispatcher dispatcher = AudioDispatcherFactory.fromPipe(audioFilePath, 44100, 4096, 2048);
-        allAmplitudes = new LinkedList<>();
-        final int[] counter = {1};
+        aggregatedAmplitudes = new LinkedList<>();
+
+        AudioDispatcher dispatcher = AudioDispatcherFactory.fromPipe(audioFilePath, TARGET_SAMPLE_RATE, AUDIO_BUFFER_SIZE, BUFFER_OVERLAP);
         AudioProcessor FFTProc = new AudioProcessor() {
-//            final FFT fft = new FFT(FFT_SIZE);
-//            final float[] amplitudes = new float[FFT_SIZE];
+            private int amplitudeSeriesNumber = 0;
             @Override
             public boolean process(AudioEvent audioEvent) {
+                ++amplitudeSeriesNumber;
                 float[] audioBuffer = audioEvent.getFloatBuffer();
-
-//                fft.forwardTransform(audioBuffer);
-//                fft.modulus(audioBuffer, amplitudes);
-
-                Collections.addAll(allAmplitudes, ArrayUtils.toObject(audioBuffer));
-                log.debug(String.format("%s. Amplitudes  : ", counter[0]) + Arrays.toString(audioBuffer));
-
-                counter[0]++;
+                Collections.addAll(aggregatedAmplitudes, ArrayUtils.toObject(audioBuffer));
+                log.trace("{}. Amplitudes: {}",amplitudeSeriesNumber, Arrays.toString(audioBuffer));
                 return false;
             }
             @Override
             public void processingFinished() {
                 double dBLevel = countDbLevel();
-                log.info("All amplitudes size: {}", allAmplitudes.size());
-                log.info("Probe processing finished. Used reference value: {}, processed dB level: {}", amplitudeReferenceValue, dBLevel);
+                log.info("Aggregated amplitudes count: {}", aggregatedAmplitudes.size());
+                log.info("Probe processing finished. Used sound reference value: {}, processed dB level: {}", amplitudeReferenceValue, dBLevel);
             }
         };
         dispatcher.addAudioProcessor(FFTProc);
-        Thread audioThreadOne = new Thread(dispatcher);
-        audioThreadOne.start();
-        audioThreadOne.join();
+        Thread audioThread = new Thread(dispatcher);
+        audioThread.start();
+        audioThread.join();
 
         return countDbLevel();
     }
 
     public double countDbLevel() {
-        double aMeasured = calculateRMS(allAmplitudes);
-        log.info(String.format("An average signal value: %s", aMeasured));
+        double aMeasured = calculateRMS(aggregatedAmplitudes);
+        log.debug(String.format("Calculated average amplitude value: %s", aMeasured));
         double amplitudeRatio = aMeasured/amplitudeReferenceValue;
-        return 20 * Math.log10(amplitudeRatio);
+        return DbUtils.convertTodB(amplitudeRatio);
     }
 
     public static double calculateRMS(List<Float> floatBuffer){
@@ -74,12 +70,5 @@ public class SoundLevelServiceImpl implements SoundLevelService {
         rms = Math.sqrt(rms);
         return rms;
     }
-
-//    public double rootMeanSquare(ArrayList<Float> nums) {
-//        double sum = 0.0;
-//        for (double num : nums)
-//            sum += num * num;
-//        return Math.sqrt(sum / nums.size());
-//    }
 }
 

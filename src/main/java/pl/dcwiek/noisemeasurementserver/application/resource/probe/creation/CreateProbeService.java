@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import pl.dcwiek.noisemeasurementserver.domain.resource.ProbeModel;
 import pl.dcwiek.noisemeasurementserver.domain.service.ProbeService;
 import pl.dcwiek.noisemeasurementserver.domain.service.ServiceException;
-import pl.dcwiek.noisemeasurementserver.domain.service.StandardService;
 
 @Service
 @Slf4j
@@ -14,12 +13,10 @@ public class CreateProbeService {
 
 
     private final ProbeService probeService;
-    private final StandardService standardService;
 
     @Autowired
-    public CreateProbeService(ProbeService probeService, StandardService standardService) {
+    public CreateProbeService(ProbeService probeService) {
         this.probeService = probeService;
-        this.standardService = standardService;
     }
 
     public ProbeModel createProbe(CreateProbeCommand command) throws ServiceException {

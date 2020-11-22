@@ -39,10 +39,6 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "user_role_id"))
     private Set<UserRoleEntity> userRoles;
 
-    public UserEntity withoutConfidentialData() {
-        this.password = null;
-        return this;
-    }
 
     public UserEntity(Integer id, String username, String password, UserRoleEntity userRole, boolean firstLogIn) {
         this.id = id;

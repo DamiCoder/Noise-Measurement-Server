@@ -21,7 +21,8 @@ class PlaceRepositoryImpl implements PlaceRepository {
     private final RegulationEntityRepository regulationEntityRepository;
 
     @Autowired
-    public PlaceRepositoryImpl(PlaceEntityRepository placeEntityRepository, RegulationEntityRepository regulationEntityRepository) {
+    PlaceRepositoryImpl(PlaceEntityRepository placeEntityRepository,
+                        RegulationEntityRepository regulationEntityRepository) {
         this.placeEntityRepository = placeEntityRepository;
         this.regulationEntityRepository = regulationEntityRepository;
     }

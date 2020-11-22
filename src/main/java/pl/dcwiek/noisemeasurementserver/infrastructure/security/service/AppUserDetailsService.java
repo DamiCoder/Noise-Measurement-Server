@@ -12,13 +12,17 @@ import pl.dcwiek.noisemeasurementserver.infrastructure.security.model.ExtUserDet
 @Service
 public class AppUserDetailsService implements UserDetailsService {
 
+    private final UserEntityRepository userEntityRepository;
+
     @Autowired
-    private UserEntityRepository userEntityRepository;
+    public AppUserDetailsService(UserEntityRepository userEntityRepository) {
+        this.userEntityRepository = userEntityRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         UserEntity user = userEntityRepository.findByUsername(s);
-        if(user == null) {
+        if (user == null) {
             throw new UsernameNotFoundException(s);
         }
         return new ExtUserDetails(user);

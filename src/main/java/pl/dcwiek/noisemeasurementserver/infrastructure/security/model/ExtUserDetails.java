@@ -56,5 +56,4 @@ public class ExtUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }

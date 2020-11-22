@@ -30,7 +30,7 @@ class ProbeRepositoryImpl implements ProbeRepository {
     private final StandardEntityRepository standardEntityRepository;
 
     @Autowired
-    public ProbeRepositoryImpl(ProbeEntityRepository probeEntityRepository,
+    ProbeRepositoryImpl(ProbeEntityRepository probeEntityRepository,
                                UserEntityRepository userEntityRepository,
                                PlaceEntityRepository placeEntityRepository,
                                StandardEntityRepository standardEntityRepository) {

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,6 +45,9 @@ import java.util.List;
 @RequestMapping(value = "/api/probe")
 @Slf4j
 public class ProbeController {
+
+    @Value("${max.file.upload.size:1000000}")
+    private int maxFileUploadSize;
 
     private final CreateProbeService createProbeService;
     private final GetProbeService getProbeService;
@@ -133,7 +137,7 @@ public class ProbeController {
     @Bean(name="multipartResolver")
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-        commonsMultipartResolver.setMaxUploadSize(1000*1000);
+        commonsMultipartResolver.setMaxUploadSize(maxFileUploadSize);
         return commonsMultipartResolver;
     }
 }

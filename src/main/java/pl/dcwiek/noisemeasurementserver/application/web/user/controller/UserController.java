@@ -32,7 +32,8 @@ public class UserController {
 
     @Autowired
     UserController(CreateUserService createUserService,
-                   UserService userService, @Qualifier(value = "userRegistrationFormValidator") Validator userRegistrationFormValidator) {
+                   UserService userService,
+                   @Qualifier(value = "userRegistrationFormValidator") Validator userRegistrationFormValidator) {
         this.createUserService = createUserService;
         this.userService = userService;
         this.userRegistrationFormValidator = userRegistrationFormValidator;
@@ -49,7 +50,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> registerUser(@RequestBody UserRegistrationForm userRegistrationForm, BindingResult bindingResult) throws BindException, ServiceException {
+    public ResponseEntity<Object> registerUser(@RequestBody UserRegistrationForm userRegistrationForm, BindingResult bindingResult)
+            throws BindException, ServiceException {
         ValidationUtils.invokeValidator(userRegistrationFormValidator, userRegistrationForm, bindingResult);
         if(bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
@@ -58,5 +60,4 @@ public class UserController {
         AppUser user = createUserService.createUser(command);
         return ResponseEntity.ok(user);
     }
-
 }
