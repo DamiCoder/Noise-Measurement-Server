@@ -28,17 +28,14 @@ import pl.dcwiek.noisemeasurementserver.application.resource.probe.retrieval.Get
 import pl.dcwiek.noisemeasurementserver.application.resource.probe.retrieval.GetProbesCommand;
 import pl.dcwiek.noisemeasurementserver.application.web.probe.model.ProbeCreationForm;
 import pl.dcwiek.noisemeasurementserver.application.web.probe.model.ProbeRetrievalForm;
+import pl.dcwiek.noisemeasurementserver.domain.file.FileService;
 import pl.dcwiek.noisemeasurementserver.domain.resource.ProbeModel;
 import pl.dcwiek.noisemeasurementserver.domain.service.ServiceException;
 import pl.dcwiek.noisemeasurementserver.infrastructure.model.constants.UserRole;
 import pl.dcwiek.noisemeasurementserver.infrastructure.security.model.AppUser;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 
 @Controller
@@ -52,6 +49,7 @@ public class ProbeController {
     private final CreateProbeService createProbeService;
     private final GetProbeService getProbeService;
     private final ProbeProcessingService probeProcessingService;
+    private final FileService fileService;
 
     private final Validator probeCreationFormValidator;
     private final Validator probeRetrievalFormValidator;
@@ -60,11 +58,13 @@ public class ProbeController {
     public ProbeController(CreateProbeService createProbeService,
                            GetProbeService getProbeService,
                            ProbeProcessingService probeProcessingService,
+                           FileService fileService,
                            @Qualifier("probeCreationFormValidator") Validator probeCreationFormValidator,
                            @Qualifier("probeRetrievalFormValidator") Validator probeRetrievalFormValidator) {
         this.createProbeService = createProbeService;
         this.getProbeService = getProbeService;
         this.probeProcessingService = probeProcessingService;
+        this.fileService = fileService;
         this.probeCreationFormValidator = probeCreationFormValidator;
         this.probeRetrievalFormValidator = probeRetrievalFormValidator;
     }
@@ -120,13 +120,10 @@ public class ProbeController {
     @PostMapping(value = "/process/dbLevel", consumes = "multipart/form-data")
     @PreAuthorize("hasAuthority('" + UserRole.APP_USER_ROLE + "')")
     public ResponseEntity<Object> processProbe(@RequestParam("probe") MultipartFile multipart,
-                                               @RequestParam("referenceValue") float referenceValue) throws IOException, ServiceException {
-        String tmpDir = System.getProperty("java.io.tmpdir");
-        File tmpFile = new File(String.format("%s/%s.mp3", tmpDir, LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()));
-        tmpFile.deleteOnExit();
+                                               @RequestParam("referenceValue") float referenceValue)
+            throws IOException, ServiceException {
 
-        OutputStream fileOutputStream = new FileOutputStream(tmpFile);
-        fileOutputStream.write(multipart.getBytes());
+        File tmpFile = fileService.saveTemporaryFile(multipart.getBytes(), "mp3");
 
         CountDbLevelCommand countDbLevelCommand = new CountDbLevelCommand(tmpFile, referenceValue);
         double dbLevel = probeProcessingService.countDbLevel(countDbLevelCommand);

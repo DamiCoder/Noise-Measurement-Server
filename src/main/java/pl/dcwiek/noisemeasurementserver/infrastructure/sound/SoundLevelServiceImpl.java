@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class SoundLevelServiceImpl implements SoundLevelService {
+class SoundLevelServiceImpl implements SoundLevelService {
 
     private double amplitudeReferenceValue;
     private List<Float> aggregatedAmplitudes;
