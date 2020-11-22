@@ -10,7 +10,7 @@
     </parent>
     <groupId>pl.dcwiek</groupId>
     <artifactId>noisemeasurementserver</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1</version>
     <name>noisemeasurementserver</name>
     <description>Spring Boot Server for Noise Measurement Android App</description>
 
